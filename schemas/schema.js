@@ -3,8 +3,11 @@ const { GraphQLObjectType, GraphQLID, GraphQLSchema } = require('graphql')
 
 const usersData = require('./users.json')
 const hobbyData = require('./hobbies.json')
+const postData = require('./posts.json')
+
 const UserType = require('./User')
 const HobbyType = require('./Hobby')
+const PostType = require('./Post')
 
 // RootQuery
 const RootQuery = new GraphQLObjectType({
@@ -30,6 +33,17 @@ const RootQuery = new GraphQLObjectType({
       resolve(parent, args) {
         if (args.id) {
           return _.find(hobbyData, { id: args.id })
+        }
+      }
+    },
+    post: {
+      type: PostType,
+      args: {
+        id: { type: GraphQLID }
+      },
+      resolve(parent, args) {
+        if (args.id) {
+          return _.find(postData, { id: args.id })
         }
       }
     }
