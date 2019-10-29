@@ -54,29 +54,18 @@ query {
 ```graphql
 mutation {
   CreateUser(name: "John", age: 54, profession: "doctor") {
-    name
-    profession
     id
-    hobbies {
-      title
-    }
-    posts {
-      comment
-    }
-  },CreatePost(comment: "Yeah", userId: 1) {
-    comment
-    user {
-      name
-    }
-  },CreateHobby(title: "What an hobby !", userId: 1) {
-    title
-    user {
-      name
-    }
+  },
+  CreatePost(comment: "Yeah", userId: 1) {
+    id
+  },
+  CreateHobby(title: "What an hobby !", userId: 1) {
+    id
   }
 }
 ```
 
+### Using mutation and queries combined
 
 ```graphql
 mutation {
@@ -91,7 +80,7 @@ mutation {
       comment
     }
   }
-  CreatePost(comment: "Yeah") {
+  CreatePost(comment: "Yeah", userId: 10) {
     comment
   }
   CreateHobby(title: "My own", description: "What an hobby !", userId: 10) {
@@ -106,4 +95,27 @@ mutation {
     }
   }
 }
+```
+
+## Querying all users
+
+```graphql
+{
+  users {
+    id
+    name
+    profession
+    age
+    hobbies {
+      id
+      title
+      description
+    }
+    posts {
+      id
+      comment
+    }
+  }
+}
+
 ```
