@@ -12,5 +12,5 @@ app.use(
 )
 
 app.listen(4000, () => {
-  console.log('Server is running.\nPlease open [http://localhost:4000/graphql].')  
+  console.log('Server is now running.\nPlease open [http://localhost:4000/graphql].')  
 })
