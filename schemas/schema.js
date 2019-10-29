@@ -1,49 +1,10 @@
-const graphql = require('graphql')
 const _ = require('lodash')
+const { GraphQLObjectType, GraphQLID, GraphQLSchema } = require('graphql')
 
-// Dumy usersData
-const usersData = [
-  {
-    id: '1',
-    name: 'John Snow',
-    age: 22,
-    profession: 'Hero'
-  },
-  {
-    id: '2',
-    name: 'Arya Stark',
-    age: 15
-  },
-  {
-    id: '3',
-    name: 'Daenerys Targaryan',
-    age: 24
-  },
-  {
-    id: '4',
-    name: 'Sansa Baratheon',
-    age: 19
-  }
-]
-
-const { GraphQLObjectType, GraphQLString, GraphQLInt, GraphQLSchema } = graphql
-
-const UserType = new GraphQLObjectType({
-  name: 'UserType',
-  description: 'Description of a User',
-  fields: () => ({
-    id: { type: GraphQLString, description: `User's id` },
-    name: {
-      type: GraphQLString,
-      description: "The name of the user. Can't be null"
-    },
-    age: {
-      type: GraphQLInt,
-      description: 'Yes, it is actually the age of te user !'
-    },
-    profession: { type: GraphQLString, description: `User's profession` }
-  })
-})
+const usersData = require('./users.json')
+const hobbyData = require('./hobbies.json')
+const UserType = require('./User')
+const HobbyType = require('./Hobby')
 
 // RootQuery
 const RootQuery = new GraphQLObjectType({
@@ -53,19 +14,27 @@ const RootQuery = new GraphQLObjectType({
     user: {
       type: UserType,
       args: {
-        id: { type: GraphQLString }
+        id: { type: GraphQLID }
       },
       resolve(parent, args) {
         if (args.id) {
           return _.find(usersData, { id: args.id })
-        } else {
-          return {}
+        }
+      }
+    },
+    hobby: {
+      type: HobbyType,
+      args: {
+        id: { type: GraphQLID }
+      },
+      resolve(parent, args) {
+        if (args.id) {
+          return _.find(hobbyData, { id: args.id })
         }
       }
     }
   }
 })
-
 module.exports = new GraphQLSchema({
   query: RootQuery
 })
