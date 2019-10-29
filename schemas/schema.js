@@ -121,8 +121,20 @@ const RootQuery = new GraphQLObjectType({
     },
     users: {
       type: new GraphQLList(UserType),
-      resolve(parent, args) {
+      resolve() {
         return usersData
+      }
+    },
+    posts: {
+      type: new GraphQLList(PostType),
+      resolve() {
+        return postData
+      }
+    },
+    hobbies: {
+      type: new GraphQLList(HobbyType),
+      resolve() {
+        return hobbyData
       }
     }
   }
