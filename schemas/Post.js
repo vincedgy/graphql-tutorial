@@ -1,6 +1,8 @@
 const graphql = require('graphql')
-
+const _ = require('lodash')
 const { GraphQLObjectType, GraphQLID, GraphQLString } = graphql
+const users = require('./users.json')
+const UserType = require('./User')
 
 module.exports = new GraphQLObjectType({
   name: 'Post',
@@ -13,6 +15,13 @@ module.exports = new GraphQLObjectType({
     comment: {
       type: GraphQLString,
       description: "The core content of the post"
+    },
+    user: {
+      type: UserType,
+      description: 'The author of the post',
+      resolve(parent) {
+        return _.find(users, { id: parent.userId })
+      }
     }
   })
 })

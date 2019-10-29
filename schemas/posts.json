@@ -1,6 +1,12 @@
 [
   {
     "id": "1",
-    "comment": "You know nothing John Snow"
+    "comment": "You know nothing John Snow",
+    "userId": "5"
+  },
+  {
+    "id": "2",
+    "comment": "I drink and I know things",
+    "userId": "10"
   }
 ]
