@@ -31,7 +31,7 @@ const HobbyType = new GraphQLObjectType({
     user: {
       type: UserType,
       resolve(parent) {
-        return _.find(usersData, {id: parent.userId})
+        return _.find(usersData, { id: parent.userId })
       }
     }
   })
@@ -52,7 +52,7 @@ const PostType = new GraphQLObjectType({
     user: {
       type: UserType,
       resolve(parent) {
-        return _.find(usersData, {id: parent.userId})
+        return _.find(usersData, { id: parent.userId })
       }
     }
   })
@@ -121,6 +121,53 @@ const RootQuery = new GraphQLObjectType({
     }
   }
 })
+
+// Mutation
+const Mutation = new GraphQLObjectType({
+  name: 'Mutation',
+  fields: {
+    CreateUser: {
+      type: UserType,
+      args: {
+        name: { type: GraphQLString },
+        age: { type: GraphQLInt },
+        profession: { type: GraphQLString }
+      },
+      resolve(parent, args) {
+        console.log('User created')
+        let user = { ...args }
+        return user
+      }
+    },
+    CreatePost: {
+      type: PostType,
+      args: {
+        comment: { type: GraphQLString },
+        userId: { type: GraphQLID }
+      },
+      resolve(parent, args) {
+        console.log('Post created')
+        let post = { ...args }
+        return post
+      }
+    },
+    CreateHobby: {
+      type: HobbyType,
+      args: {
+        title: { type: GraphQLString },
+        description: { type: GraphQLString },
+        userId: { type: GraphQLID }
+      },
+      resolve(parent, args) {
+        console.log('Hobby created')
+        let post = { ...args }
+        return post
+      }
+    }
+  }
+})
+
 module.exports = new GraphQLSchema({
-  query: RootQuery
+  query: RootQuery,
+  mutation: Mutation
 })
