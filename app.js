@@ -1,4 +1,5 @@
 const express = require('express')
+const cors = require('cors')
 const logger = require('loggy')
 const graphql = require('express-graphql')
 const { MONGODB_HOST, MONGODB_NAME, MONGODB_CONFIG } = require('./config')
@@ -10,6 +11,7 @@ const app = express()
 
 // Declare app
 app
+  .use(cors())
   .use(
     '/graphql',
     graphql({
