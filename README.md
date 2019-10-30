@@ -118,3 +118,50 @@ mutation {
 }
 
 ```
+
+## Same with MongoDB
+
+```graphql
+
+# Create some Documents
+#mutation {
+#  CreateUser(name:"Maykel", age:36, profession: "Developper") { id }
+
+#}
+
+#mutation {
+#  CreatePost(comment: "This is a comment") {id}  
+#}
+
+
+#mutation {
+#  CreateHobby(title: "This is a hobby") {id}  
+#}
+
+query {
+  
+  # Query all users from MongoDB
+  users {
+    id
+    name
+    profession
+  }
+  user(id: "5db9cbda1c55056c54db3c7f") {id}
+  
+  # Query all hobbies from MongoDB
+  hobbies {
+    id
+    title
+    description
+  }
+  hobby(id: "5db9c730142c9c6896ad39ae") {id}
+  
+  # Query all post from MongoDB
+  posts {
+    id
+    comment
+  }
+  post(id: "5db9c707142c9c6896ad39ad") {id}
+  
+ }
+```
