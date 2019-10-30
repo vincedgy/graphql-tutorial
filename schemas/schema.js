@@ -1,4 +1,5 @@
 const _ = require('lodash')
+const logger = require('loggy')
 const {
   GraphQLObjectType,
   GraphQLID,
@@ -9,6 +10,10 @@ const {
 } = require('graphql')
 
 const { UserType, HobbyType, PostType } = require('./types_schemas')
+
+const User = require('../model/User')
+const Post = require('../model/Post')
+const Hobby = require('../model/Hobby')
 
 const usersData = require('./users.json')
 const hobbyData = require('./hobbies.json')
@@ -25,7 +30,8 @@ const RootQuery = new GraphQLObjectType({
         id: { type: GraphQLID }
       },
       resolve(parent, args) {
-        return _.find(usersData, { id: args.id })
+        return User.findById(args.id)
+        //return _.find(usersData, { id: args.id })
       }
     },
     hobby: {
@@ -79,8 +85,11 @@ const Mutation = new GraphQLObjectType({
         profession: { type: GraphQLString }
       },
       resolve(parent, args) {
-        console.log('User created')
-        let user = { ...args }
+        let user = new User({ ...args })
+        user
+          .save()
+          .then(() => logger.log('Created'))
+          .catch(err => logger.error(err))
         return user
       }
     },
@@ -91,8 +100,12 @@ const Mutation = new GraphQLObjectType({
         userId: { type: GraphQLID }
       },
       resolve(parent, args) {
-        console.log('Post created')
-        let post = { ...args }
+        logger.log('Post created')
+        let post = new Post({ ...args })
+        post
+          .save()
+          .then(() => logger.log('Created'))
+          .catch(err => logger.error(err))
         return post
       }
     },
@@ -104,9 +117,13 @@ const Mutation = new GraphQLObjectType({
         userId: { type: GraphQLID }
       },
       resolve(parent, args) {
-        console.log('Hobby created')
-        let post = { ...args }
-        return post
+        logger.log('Hobby created')
+        let hobby = new Hobby({ ...args })
+        hobby
+          .save()
+          .then(() => logger.log('Created'))
+          .catch(err => logger.error(err))
+        return hobby
       }
     }
   }

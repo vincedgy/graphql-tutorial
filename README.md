@@ -4,12 +4,11 @@ GraphQL with nodeJS and express
 Author  : Vincent DAGOURY
 Date    : 2019/10
 
-
-
 ## Prerequisites
 
 - Node JS 10+ with npm
 - Visual Studio Code and usefull extensions
+- MongoDB Atlas account, a cluster and a user to connect with
 
 ## Install
 
