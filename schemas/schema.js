@@ -1,4 +1,3 @@
-const _ = require('lodash')
 const logger = require('loggy')
 const {
   GraphQLObjectType,
@@ -14,10 +13,6 @@ const { UserType, HobbyType, PostType } = require('./types_schemas')
 const User = require('../model/User')
 const Post = require('../model/Post')
 const Hobby = require('../model/Hobby')
-
-const usersData = require('./users.json')
-const hobbyData = require('./hobbies.json')
-const postData = require('./posts.json')
 
 // RootQuery
 const RootQuery = new GraphQLObjectType({
