@@ -49,7 +49,7 @@ mongoose
 // Listen to connection 'open' event
 mongoose.connection.on('open', () => {
   logger.log(
-    `Now connected to database ${process.env.MONGODB_NAME} on ${process.env.MONGODB_HOST}`
+    `Connected to Mongodb Atlas on ${process.env.MONGODB_NAME} on ${process.env.MONGODB_HOST}`
   )
   // Run app
   app.listen(PORT, () => {
