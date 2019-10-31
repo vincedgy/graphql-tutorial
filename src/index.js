@@ -9,6 +9,8 @@ import schema from './schemas/schema'
 
 const app = express()
 
+const PORT = process.env.PORT || 4000
+
 // Declare app
 app
   .use(cors())
@@ -50,8 +52,9 @@ mongoose.connection.on('open', () => {
     `Now connected to database ${process.env.MONGODB_NAME} on ${process.env.MONGODB_HOST}`
   )
   // Run app
-  app.listen(4000, () => {
-    logger.info('Server is running on [http://localhost:4000/graphql].')
+  app.listen(PORT, () => {
+    logger.info(`Listening on port ${PORT}`)
+    logger.info(`You should open an url on {host}:${PORT}/graphql`)
   })
 })
 
