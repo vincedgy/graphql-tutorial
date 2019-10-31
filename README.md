@@ -119,25 +119,26 @@ mutation {
 
 ```
 
-## Same with MongoDB
+## Same with MongoDB in the backend
 
 ```graphql
 
 # Create some Documents
-#mutation {
-#  CreateUser(name:"Maykel", age:36, profession: "Developper") { id }
-
-#}
+mutation {
+  CreateUser(name:"Maykel", age:36, profession: "Developper") { id }
+}
 
 #mutation {
 #  CreatePost(comment: "This is a comment") {id}  
 #}
 
-
 #mutation {
 #  CreateHobby(title: "This is a hobby") {id}  
 #}
+```
 
+
+```graphql
 query {
   
   # Query all users from MongoDB
@@ -165,3 +166,5 @@ query {
   
  }
 ```
+
+etc...

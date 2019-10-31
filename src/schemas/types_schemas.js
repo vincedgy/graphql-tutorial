@@ -1,22 +1,26 @@
-const logger = require('loggy')
-const {
+import logger from 'loggy'
+import {
   GraphQLObjectType,
   GraphQLID,
   GraphQLString,
-  GraphQLBoolean,
-  GraphQLInt,
   GraphQLList,
-  GraphQLNonNull
-} = require('graphql')
+  GraphQLInt,
+  GraphQLNonNull,
+  GraphQLBoolean
+} from 'graphql'
 
-const User = require('../model/User')
-const Post = require('../model/Post')
-const Hobby = require('../model/Hobby')
+import {
+  GraphQLDateTime
+} from 'graphql-iso-date'
+
+import User from '../model/User'
+import Post from '../model/Post'
+import Hobby from '../model/Hobby'
 
 /**
  *
  */
-const Person = new GraphQLObjectType({
+export const Person = new GraphQLObjectType({
   name: 'Person',
   description: 'Represents a person type',
   fields: () => ({
@@ -30,7 +34,7 @@ const Person = new GraphQLObjectType({
 /**
  *
  */
-const HobbyType = new GraphQLObjectType({
+export const HobbyType = new GraphQLObjectType({
   name: 'Hobby',
   description: 'What a pleasure to have a great hobby in life',
   fields: () => ({
@@ -58,7 +62,7 @@ const HobbyType = new GraphQLObjectType({
 /**
  *
  */
-const PostType = new GraphQLObjectType({
+export const PostType = new GraphQLObjectType({
   name: 'Post',
   description: 'This is a post the we can share between users',
   fields: () => ({
@@ -69,6 +73,10 @@ const PostType = new GraphQLObjectType({
     comment: {
       type: new GraphQLNonNull(GraphQLString),
       description: 'The core content of the post'
+    },
+    creation: {
+      type: new GraphQLNonNull(GraphQLDateTime),
+      description: 'The date and time of post creation'
     },
     user: {
       type: UserType,
@@ -82,7 +90,7 @@ const PostType = new GraphQLObjectType({
 /**
  *
  */
-const UserType = new GraphQLObjectType({
+export const UserType = new GraphQLObjectType({
   name: 'User',
   description: 'Description of a User',
   fields: () => ({
@@ -99,18 +107,20 @@ const UserType = new GraphQLObjectType({
     posts: {
       type: new GraphQLList(PostType),
       resolve(parent) {
-        logger.info('Looking for posts for ' + parent.userId)
-        return Post.find().where('userId').equals(parent.userId)
+        logger.info('Looking for posts for ' + parent.id)
+        return Post.find()
+          .where('userId')
+          .equals(parent.id)
       }
     },
     hobbies: {
       type: new GraphQLList(HobbyType),
       resolve(parent) {
         logger.info('Looking for hobbies for ' + parent.id)
-        return Hobby.find().where('userId').equals(parent.userId)
+        return Hobby.find()
+          .where('userId')
+          .equals(parent.id)
       }
     }
   })
 })
-
-module.exports = { UserType, Person, HobbyType, PostType }

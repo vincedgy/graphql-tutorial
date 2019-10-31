@@ -1,11 +1,11 @@
-const express = require('express')
-const cors = require('cors')
-const logger = require('loggy')
-const graphql = require('express-graphql')
-const { MONGODB_HOST, MONGODB_NAME, MONGODB_CONFIG } = require('./config')
-
-const mongoose = require('mongoose')
-const schema = require('./schemas/schema')
+import 'dotenv/config'
+import mongoConfig from './mongo'
+import express from 'express'
+import cors from 'cors'
+import logger from 'loggy'
+import graphql from 'express-graphql'
+import mongoose from 'mongoose'
+import schema from './schemas/schema'
 
 const app = express()
 
@@ -34,21 +34,23 @@ logger.info('Starting...')
 mongoose
   .connect(
     'mongodb+srv://' +
-      MONGODB_HOST +
+      process.env.MONGODB_HOST +
       '/' +
-      MONGODB_NAME +
+      process.env.MONGODB_NAME +
       '?retryWrites=true&w=majority',
-    MONGODB_CONFIG
+      mongoConfig
   )
   .catch(err => {
     logger.error('Error during mongoDB connection', err)
   })
 
-// Listen to db opened
+// Listen to connection 'open' event
 mongoose.connection.on('open', () => {
-  logger.log(`Connected to database ${MONGODB_NAME} on ${MONGODB_HOST}`)
+  logger.log(`Now connected to database ${process.env.MONGODB_NAME} on ${process.env.MONGODB_HOST}`)
   // Run app
   app.listen(4000, () => {
     logger.info('Server is running on [http://localhost:4000/graphql].')
   })
 })
+
+export default app

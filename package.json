@@ -4,9 +4,22 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "env LOGGY_STACKS=1 node -r dotenv/config app.js",
-    "mon": "env LOGGY_STACKS=1 nodemon app.js"
+    "watch": "env LOGGY_STACKS=1 nodemon --exec babel-node src/index.js",
+    "build": "babel src -d dist --source-maps"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env",
+      [
+        "minify",
+        {
+          "evaluate": false,
+          "mangle": true
+        }
+      ]
+    ],
+    "sourceMaps": "inline",
+    "retainLines": true
   },
   "keywords": [],
   "author": "",
@@ -17,12 +30,22 @@
     "express": "^4.17.1",
     "express-graphql": "^0.9.0",
     "graphql": "^14.5.8",
+    "graphql-iso-date": "^3.6.1",
     "lodash": "^4.17.15",
     "loggy": "^1.0.8",
     "mongoose": "^5.7.7"
   },
   "devDependencies": {
+    "@babel/cli": "^7.6.4",
+    "@babel/core": "^7.6.4",
+    "@babel/node": "^7.6.3",
+    "@babel/preset-env": "^7.6.3",
+    "babel-loader": "^8.0.6",
+    "babel-preset-minify": "^0.5.1",
     "eslint": "^6.6.0",
-    "nodemon": "^1.19.4"
+    "nodemon": "^1.19.4",
+    "source-map": "^0.7.3",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.10"
   }
 }
