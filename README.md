@@ -14,6 +14,7 @@
 - Debugging within vscode
 - Using a Cloud Backend like MongoDB Atlas
 - Using a Docker container at this end
+- Use Heroku and deploy the server to the World
 
 ## Prerequisites
 
@@ -392,5 +393,136 @@ Successfully tagged graphql-tutorial:latest
 
 ```shell
 $ docker run -it -p 4000:4000 graphql-tutorial:latest
+
+```
+
+
+
+## Deploy to heroku
+
+Assuming you have an account on heroku and you know its capabilites to push apps [https://devcenter.heroku.com/articles/getting-started-with-nodejs#deploy-the-app](https://devcenter.heroku.com/articles/getting-started-with-nodejs#deploy-the-app)...
+
+```shell
+heroku create
+Creating app... !
+ ▸    Invalid credentials provided.
+Enter your Heroku credentials:
+Email: vincent.dagoury@gmail.com
+Password: **************
+Creating app... done, ⬢ spooky-cat-34882
+https://spooky-cat-34882.herokuapp.com/ | https://git.heroku.com/spooky-cat-34882.git
+
+
+$ git remote -v
+heroku	https://git.heroku.com/spooky-cat-34882.git (fetch)
+heroku	https://git.heroku.com/spooky-cat-34882.git (push)
+origin	git@github.com:vincedgy/graphql-tutorial.git (fetch)
+origin	git@github.com:vincedgy/graphql-tutorial.git (push)
+
+```
+
+Deploy the app
+
+```shell
+$ git push heroku master
+
+Enumerating objects: 245, done.
+Counting objects: 100% (245/245), done.
+Delta compression using up to 4 threads
+Compressing objects: 100% (177/177), done.
+Writing objects: 100% (245/245), 139.92 KiB | 4.00 MiB/s, done.
+Total 245 (delta 125), reused 98 (delta 58)
+remote: Compressing source files... done.
+remote: Building source:
+remote:
+remote: -----> Node.js app detected
+remote:
+remote: -----> Creating runtime environment
+remote:
+remote:        NPM_CONFIG_LOGLEVEL=error
+remote:        NODE_ENV=production
+remote:        NODE_MODULES_CACHE=true
+remote:        NODE_VERBOSE=false
+remote:
+remote: -----> Installing binaries
+remote:        engines.node (package.json):  unspecified
+remote:        engines.npm (package.json):   unspecified (use default)
+remote:
+remote:        Resolving node version 12.x...
+remote:        Downloading and installing node 12.13.0...
+remote:        Using default npm version: 6.12.0
+remote:
+remote: -----> Installing dependencies
+remote:        Installing node modules (package.json + package-lock)
+remote:
+remote:        > core-js@3.3.5 postinstall /tmp/build_23e10da2ef638f8e20a77f4d1b8edb3d/node_modules/core-js
+remote:        > node postinstall || echo "ignore"
+remote:
+remote:
+remote:        > nodemon@1.19.4 postinstall /tmp/build_23e10da2ef638f8e20a77f4d1b8edb3d/node_modules/nodemon
+remote:        > node bin/postinstall || exit 0
+remote:
+remote:        Love nodemon? You can now support the project via the open collective:
+remote:         > https://opencollective.com/nodemon/donate
+remote:
+remote:        added 798 packages from 417 contributors and audited 11763 packages in 21.112s
+remote:        found 0 vulnerabilities
+remote:
+remote:
+remote: -----> Build
+remote:        Running build
+remote:
+remote:        > graphql-tutorial@2.0.0 build /tmp/build_23e10da2ef638f8e20a77f4d1b8edb3d
+remote:        > webpack --config ./webpack.config.js --mode production
+remote:
+remote:        Hash: 25d0a0e4b63ae4745c89
+remote:        Version: webpack 4.41.2
+remote:        Time: 2357ms
+remote:        Built at: 10/31/2019 3:04:00 PM
+remote:            Asset     Size  Chunks             Chunk Names
+remote:        bundle.js  9.2 KiB       0  [emitted]  main
+remote:        Entrypoint main = bundle.js
+remote:        [0] external "graphql" 42 bytes {0} [built]
+remote:        [1] external "loggy" 42 bytes {0} [built]
+remote:        [2] external "mongoose" 42 bytes {0} [built]
+remote:        [3] external "graphql-iso-date" 42 bytes {0} [built]
+remote:        [4] external "dotenv/config" 42 bytes {0} [built]
+remote:        [5] external "express" 42 bytes {0} [built]
+remote:        [6] external "cors" 42 bytes {0} [built]
+remote:        [7] external "express-graphql" 42 bytes {0} [built]
+remote:        [8] ./src/index.js + 6 modules 14.5 KiB {0} [built]
+remote:            | ./src/index.js 1.57 KiB [built]
+remote:            | ./src/mongo.js 748 bytes [built]
+remote:            | ./src/schemas/schema.js 8.48 KiB [built]
+remote:            | ./src/model/User.js 149 bytes [built]
+remote:            | ./src/model/Post.js 151 bytes [built]
+remote:            | ./src/model/Hobby.js 173 bytes [built]
+remote:            | ./src/schemas/types_schemas.js 3.17 KiB [built]
+remote:
+remote: -----> Pruning devDependencies
+remote:        removed 714 packages and audited 187 packages in 8.492s
+remote:        found 0 vulnerabilities
+remote:
+remote:
+remote: -----> Caching build
+remote:        - node_modules
+remote:
+remote: -----> Build succeeded!
+remote:  !     This app may not specify any way to start a node process
+remote:        https://devcenter.heroku.com/articles/nodejs-support#default-web-process-type
+remote:
+remote: -----> Discovering process types
+remote:        Procfile declares types     -> (none)
+remote:        Default types for buildpack -> web
+remote:
+remote: -----> Compressing...
+remote:        Done: 23.5M
+remote: -----> Launching...
+remote:        Released v3
+remote:        https://spooky-cat-34882.herokuapp.com/ deployed to Heroku
+remote:
+remote: Verifying deploy... done.
+To https://git.heroku.com/spooky-cat-34882.git
+ * [new branch]      master -> master
 
 ```
