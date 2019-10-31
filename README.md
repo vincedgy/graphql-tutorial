@@ -45,9 +45,16 @@
 
 package.json contains depencies for this app and ```npm install``` will install them.
 
+```shell
+npm ci
 ```
-npm i
+
+## run
+
+```shell
+npm start
 ```
+
 
 ## Development
 
@@ -56,6 +63,30 @@ Executing server during dev
 ```shell
 $ npm run serve
 ```
+
+## Debug
+
+Executing server in watch mode while debugging with vscode with 'Debug' config of .vscode/launch.json
+
+```shell
+$ npm run watch
+
+
+> graphql-tutorial@2.0.0 watch /Users/vincent/Projects/GraphQL/graphql-tutorial
+> babel src --out-dir dist --source-maps --watch --verbose
+
+src/index.js -> dist/index.js
+src/model/Hobby.js -> dist/model/Hobby.js
+src/model/Post.js -> dist/model/Post.js
+src/model/User.js -> dist/model/User.js
+src/mongo.js -> dist/mongo.js
+src/schemas/schema.js -> dist/schemas/schema.js
+src/schemas/types_schemas.js -> dist/schemas/types_schemas.js
+Successfully compiled 7 files with Babel.
+
+```
+
+Now you can pu breakpoints and checkout variables within Visual Studio Code
 
 ## Build
 
@@ -93,7 +124,7 @@ Entrypoint main = bundle.js
 
 ```
 
-now you can launch the production build
+now you can launch yourself the production build
 
 ```shell
 $ node ./build/bundle.js
