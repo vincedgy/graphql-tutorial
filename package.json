@@ -4,6 +4,7 @@
   "description": "A project to explore GraphQL written in ES6 with babel and webpack",
   "main": "src/index.js",
   "scripts": {
+    "clean": "rimraf dist dist-prod",
     "serve": "env LOGGY_STACKS=1 nodemon --signal SIGHUP --exec babel-node src/index.js --source-maps",
     "build": "webpack --config ./webpack.config.js --mode production"
   },
@@ -41,6 +42,7 @@
     "nodemon": "^1.19.4",
     "prettier": "^1.18.2",
     "prettier-webpack-plugin": "^1.2.0",
+    "rimraf": "^3.0.0",
     "source-map": "^0.7.3",
     "webpack": "^4.41.2",
     "webpack-cli": "^3.3.10",
