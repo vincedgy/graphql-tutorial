@@ -10,8 +10,11 @@
         "SharedArrayBuffer": "readonly"
     },
     "parserOptions": {
-        "ecmaVersion": 2018
+        "ecmaVersion": 2018,
+        "sourceType": "module"
     },
+    "parser": "babel-eslint",
     "rules": {
+      "max-len": [1, 120, 2, {"ignoreComments": true}]
     }
 }

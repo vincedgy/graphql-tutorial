@@ -9,6 +9,8 @@ Date    : 2019/10
 - Node JS 10+ with npm
 - Visual Studio Code and usefull extensions
 - MongoDB Atlas account, a cluster and a user to connect with
+- eslint globally installed
+- webpack-cli globally installed
 
 ## Install
 
@@ -119,27 +121,28 @@ mutation {
 
 ```
 
-## Same with MongoDB
+## Same with MongoDB in the backend
 
 ```graphql
 
 # Create some Documents
-#mutation {
-#  CreateUser(name:"Maykel", age:36, profession: "Developper") { id }
+mutation {
+  CreateUser(name:"Maykel", age:36, profession: "Developper") { id }
+}
 
+#mutation {
+#  CreatePost(comment: "This is a comment") {id}
 #}
 
 #mutation {
-#  CreatePost(comment: "This is a comment") {id}  
+#  CreateHobby(title: "This is a hobby") {id}
 #}
+```
 
 
-#mutation {
-#  CreateHobby(title: "This is a hobby") {id}  
-#}
-
+```graphql
 query {
-  
+
   # Query all users from MongoDB
   users {
     id
@@ -147,7 +150,7 @@ query {
     profession
   }
   user(id: "5db9cbda1c55056c54db3c7f") {id}
-  
+
   # Query all hobbies from MongoDB
   hobbies {
     id
@@ -155,13 +158,15 @@ query {
     description
   }
   hobby(id: "5db9c730142c9c6896ad39ae") {id}
-  
+
   # Query all post from MongoDB
   posts {
     id
     comment
   }
   post(id: "5db9c707142c9c6896ad39ad") {id}
-  
+
  }
 ```
+
+etc...

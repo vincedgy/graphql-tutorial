@@ -1,18 +1,18 @@
-const logger = require('loggy')
-const {
+import logger from 'loggy'
+import {
   GraphQLObjectType,
   GraphQLID,
   GraphQLSchema,
   GraphQLString,
   GraphQLList,
   GraphQLInt
-} = require('graphql')
+} from 'graphql'
 
-const { UserType, HobbyType, PostType } = require('./types_schemas')
+import { UserType, HobbyType, PostType } from './types_schemas'
 
-const User = require('../model/User')
-const Post = require('../model/Post')
-const Hobby = require('../model/Hobby')
+import User from '../model/User'
+import Post from '../model/Post'
+import Hobby from '../model/Hobby'
 
 // RootQuery
 const RootQuery = new GraphQLObjectType({
@@ -49,18 +49,21 @@ const RootQuery = new GraphQLObjectType({
     users: {
       type: new GraphQLList(UserType),
       resolve() {
+        logger.info('Looking for users')
         return User.find()
       }
     },
     posts: {
       type: new GraphQLList(PostType),
       resolve() {
+        logger.info('Looking for posts')
         return Post.find()
       }
     },
     hobbies: {
       type: new GraphQLList(HobbyType),
       resolve() {
+        logger.info('Looking for hobbies')
         return Hobby.find()
       }
     }
@@ -95,10 +98,10 @@ const Mutation = new GraphQLObjectType({
       },
       resolve(parent, args) {
         logger.log('Post created')
-        let post = new Post({ ...args })
+        let post = new Post({ ...args, creation: new Date() })
         post
           .save()
-          .then(() => logger.log('Created'))
+          .then(a => logger.log(a))
           .catch(err => logger.error(err))
         return post
       }
@@ -123,7 +126,7 @@ const Mutation = new GraphQLObjectType({
   }
 })
 
-module.exports = new GraphQLSchema({
+export default new GraphQLSchema({
   query: RootQuery,
   mutation: Mutation
 })

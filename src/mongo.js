@@ -1,15 +1,8 @@
-// config.js
-const dotenv = require('dotenv')
-const result = dotenv.config()
-if (result.error) {
-  throw result.error
-}
-const { parsed: envs } = result
+import 'dotenv/config'
 
-// Adding MongoDB Config
-const mongoDbConfig = {
-  user: envs.MONGODB_USER,
-  pass: envs.MONGODB_PASSWORD,
+export default {
+  user: process.env.MONGODB_USER,
+  pass: process.env.MONGODB_PASSWORD,
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useCreateIndex: true,
@@ -24,7 +17,3 @@ const mongoDbConfig = {
   socketTimeoutMS: 45000, // Close sockets after 45 seconds of inactivity
   family: 4 // Use IPv4, skip trying IPv6
 }
-
-envs.MONGODB_CONFIG = mongoDbConfig
-
-module.exports = envs
