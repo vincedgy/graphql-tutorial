@@ -1,19 +1,13 @@
 FROM node:lts-alpine
 
-# Create app directory as 'node' user
-WORKDIR /usr/src/app
-
-# Copy all needed files (given the .dockerignore file)
+WORKDIR /usr/src
 COPY . .
 
-# Install dependencies
 RUN npm install
-
-# Compile and build (see package.json scripts)
 RUN npm run build
 
-# Now we will expose a default port
 EXPOSE 4000
-
-# Then we should launch the app
 CMD [ "node", "dist-prod/bundle.js" ]
+
+HEALTHCHECK --interval=10s --timeout=2s --start-period=15s \
+  CMD ["node","healthcheck.js"]

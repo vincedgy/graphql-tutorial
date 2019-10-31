@@ -59,6 +59,10 @@ mongoose.connection.on('open', () => {
 const gracefulShutdown = () => {
   mongoose.connection.close().then(() => {
     logger.log('Closing connection to database gently.')
+    process.exit(0)
+  }).catch((err) => {
+    logger.log(err)
+    process.exit(1)
   })
 }
 process.once('SIGINT', gracefulShutdown)
