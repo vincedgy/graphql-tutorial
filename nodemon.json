@@ -1,5 +1,12 @@
 {
-    "exec": "babel-node ./src/index",
-    "watch": ["src/**"],
-    "ext": "js"
-  }
+  "verbose": true,
+  "exec": "babel-node ./src/index",
+  "ignore": ["*.test.js", "fixtures/*"],
+  "watch": ["src/**"],
+  "ext": "js",
+  "events": {
+    "restart": "kill-port 4000",
+    "crash": "kill-port 4000"
+  },
+  "delay": "2500"
+}

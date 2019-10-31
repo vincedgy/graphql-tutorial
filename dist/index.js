@@ -47,6 +47,8 @@ _loggy["default"].error("Error during mongoDB connection",a);
 
 _mongoose["default"].connection.on("open",function(){
 
+
+
 // Run app
 _loggy["default"].log("Now connected to database ".concat(process.env.MONGODB_NAME," on ").concat(process.env.MONGODB_HOST)),app.listen(4e3,function(){
 _loggy["default"].info("Server is running on [http://localhost:4000/graphql].");

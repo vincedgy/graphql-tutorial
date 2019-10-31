@@ -9,9 +9,7 @@ import {
   GraphQLBoolean
 } from 'graphql'
 
-import {
-  GraphQLDateTime
-} from 'graphql-iso-date'
+import { GraphQLDateTime } from 'graphql-iso-date'
 
 import User from '../model/User'
 import Post from '../model/Post'

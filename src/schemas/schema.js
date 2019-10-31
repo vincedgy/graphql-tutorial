@@ -46,7 +46,7 @@ const RootQuery = new GraphQLObjectType({
         return Post.findById(args.id)
       }
     },
-    users: {      
+    users: {
       type: new GraphQLList(UserType),
       resolve() {
         logger.info('Looking for users')
@@ -101,7 +101,7 @@ const Mutation = new GraphQLObjectType({
         let post = new Post({ ...args, creation: new Date() })
         post
           .save()
-          .then((a) => logger.log(a))
+          .then(a => logger.log(a))
           .catch(err => logger.error(err))
         return post
       }

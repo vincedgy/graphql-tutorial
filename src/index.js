@@ -38,7 +38,7 @@ mongoose
       '/' +
       process.env.MONGODB_NAME +
       '?retryWrites=true&w=majority',
-      mongoConfig
+    mongoConfig
   )
   .catch(err => {
     logger.error('Error during mongoDB connection', err)
@@ -46,11 +46,23 @@ mongoose
 
 // Listen to connection 'open' event
 mongoose.connection.on('open', () => {
-  logger.log(`Now connected to database ${process.env.MONGODB_NAME} on ${process.env.MONGODB_HOST}`)
+  logger.log(
+    `Now connected to database ${process.env.MONGODB_NAME} on ${process.env.MONGODB_HOST}`
+  )
   // Run app
   app.listen(4000, () => {
     logger.info('Server is running on [http://localhost:4000/graphql].')
   })
 })
+
+// Gracefull shutdown
+const gracefulShutdown = () => {
+  mongoose.connection.close().then(() => {
+    logger.log('Closing connection to database gently.')
+  })
+}
+process.once('SIGINT', gracefulShutdown)
+process.once('SIGHUP', gracefulShutdown)
+process.once('SIGUSR2', gracefulShutdown)
 
 export default app
