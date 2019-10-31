@@ -526,3 +526,9 @@ To https://git.heroku.com/spooky-cat-34882.git
  * [new branch]      master -> master
 
 ```
+
+### Watch Heroku logs
+
+```shell
+$ heroku logs --tail
+```
