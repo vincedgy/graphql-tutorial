@@ -8,7 +8,7 @@
     "watch": "babel src --out-dir dist --source-maps --watch --verbose",
     "serve": "nodemon",
     "build": "webpack --config ./webpack.config.js --mode production",
-    "start": "node dist-prod/bundle.js"
+    "start": "LOGGY_STACKS=1 node dist-prod/bundle.js"
   },
   "keywords": [
     "nodejs",
