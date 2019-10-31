@@ -75,16 +75,21 @@ const RootQuery = new GraphQLObjectType({
 const Mutation = new GraphQLObjectType({
   name: 'Mutation',
   fields: {
-
     /**
      * User's Mutations
      */
     CreateUser: {
       type: UserType,
       args: {
-        name: { type: new GraphQLNonNull(GraphQLString), description: 'The name of the new user'},
-        age: { type: GraphQLInt, description: 'The age of the new user'},
-        profession: { type: GraphQLString, description: 'The profession of the new user'}
+        name: {
+          type: new GraphQLNonNull(GraphQLString),
+          description: 'The name of the new user'
+        },
+        age: { type: GraphQLInt, description: 'The age of the new user' },
+        profession: {
+          type: GraphQLString,
+          description: 'The profession of the new user'
+        }
       },
       resolve(parent, args) {
         let user = new User({ ...args })
@@ -101,7 +106,7 @@ const Mutation = new GraphQLObjectType({
       args: {
         id: {
           type: new GraphQLNonNull(GraphQLID),
-          description: 'The user\'s id to be updated'
+          description: "The user's id to be updated"
         },
         name: { type: GraphQLString, description: 'The new name' },
         age: { type: GraphQLInt, description: 'The new age' },
@@ -109,7 +114,7 @@ const Mutation = new GraphQLObjectType({
       },
       resolve(parent, args) {
         return User.findByIdAndUpdate(args.id, { ...args }, { new: true })
-          .then((newUser) => {
+          .then(newUser => {
             logger.log(`User ${args.id} is now updated`)
             return newUser
           })
@@ -158,13 +163,16 @@ const Mutation = new GraphQLObjectType({
       args: {
         id: {
           type: new GraphQLNonNull(GraphQLID),
-          description: 'The post\'s id to be updated'
+          description: "The post's id to be updated"
         },
-        comment: { type: new GraphQLNonNull(GraphQLString), description: 'The new comment' }
+        comment: {
+          type: new GraphQLNonNull(GraphQLString),
+          description: 'The new comment'
+        }
       },
       resolve(parent, args) {
         return Post.findByIdAndUpdate(args.id, { ...args }, { new: true })
-          .then((newPost) => {
+          .then(newPost => {
             logger.log(`Post ${args.id} is now updated`)
             return newPost
           })
@@ -186,7 +194,6 @@ const Mutation = new GraphQLObjectType({
           .catch(err => logger.error(err))
       }
     },
-
 
     /**
      * Hobby's mutations
@@ -213,14 +220,14 @@ const Mutation = new GraphQLObjectType({
       args: {
         id: {
           type: new GraphQLNonNull(GraphQLID),
-          description: 'The hobby\'s id to be updated'
+          description: "The hobby's id to be updated"
         },
         title: { type: GraphQLString, description: 'The new title' },
         description: { type: GraphQLString, description: 'The new description' }
       },
       resolve(parent, args) {
         return Hobby.findByIdAndUpdate(args.id, { ...args }, { new: true })
-          .then((newHobby) => {
+          .then(newHobby => {
             logger.log(`Hobby ${args.id} is now updated`)
             return newHobby
           })
@@ -240,7 +247,7 @@ const Mutation = new GraphQLObjectType({
           .then(() => logger.log(`Hobby ${args.id} is deleted`))
           .catch(err => logger.error(err))
       }
-    },
+    }
   }
 })
 
