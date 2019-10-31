@@ -2,6 +2,6 @@
   "presets": [
     "@babel/preset-env"
   ],
-  "sourceMaps": "inline",
-  "retainLines": true
+  "compact": "auto",
+  "sourceMaps": "both"
 }

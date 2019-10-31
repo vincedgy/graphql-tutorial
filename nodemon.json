@@ -1,13 +1,13 @@
 {
   "verbose": true,
-  "exec": "babel-node ./src/index",
+  "exec": "babel-node src --out-dir dist --source-maps --verbose --watch",
   "ignore": ["*.test.js", "fixtures/*"],
-  "watch": ["src/**"],
+  "watch": ["dist/**"],
+  "signal": "SIGHUP",
   "ext": "js",
   "events": {
     "restart": "kill-port 4000",
-    "crash": "kill-port 4000",
-    "exit": "kill-port 4000"
+    "crash": "kill-port 4000"
   },
   "delay": "2500"
 }

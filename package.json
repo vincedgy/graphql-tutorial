@@ -5,8 +5,8 @@
   "main": "src/index.js",
   "scripts": {
     "clean": "rimraf dist dist-prod",
-    "watch": "babel src --out-dir dist --source-maps --watch",
-    "serve": "nodemon --signal SIGHUP --exec babel-node src/index.js --source-maps",
+    "watch": "babel src --out-dir dist --source-maps --watch --verbose",
+    "serve": "nodemon",
     "build": "webpack --config ./webpack.config.js --mode production"
   },
   "keywords": [
@@ -36,6 +36,7 @@
     "@babel/preset-env": "^7.6.3",
     "babel-eslint": "^10.0.3",
     "babel-loader": "^8.0.6",
+    "clean-webpack-plugin": "^3.0.0",
     "eslint": "^6.6.0",
     "eslint-loader": "^3.0.2",
     "kill-port": "^1.6.0",
