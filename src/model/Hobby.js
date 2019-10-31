@@ -5,6 +5,7 @@ export default mongoose.model(
   new mongoose.Schema({
     title: String,
     description: String,
-    userId: String
+    userId: String,
+    creation: Date
   })
 )

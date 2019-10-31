@@ -48,6 +48,10 @@ export const HobbyType = new GraphQLObjectType({
       type: GraphQLString,
       description: "The hobby's description"
     },
+    creation: {
+      type: GraphQLDateTime,
+      description: 'The date and time of hobby creation'
+    },
     user: {
       type: UserType,
       resolve(parent) {

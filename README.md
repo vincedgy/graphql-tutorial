@@ -3,8 +3,9 @@
 GraphQL with nodeJS and express
 ---------------------------------
 
-Author  : Vincent DAGOURY
-Date    : 2019/10
+- Author  : Vincent DAGOURY
+- Date    : 2019/10
+- License : ISC [https://www.gnu.org/licenses/license-list.html#ISC](https://www.gnu.org/licenses/license-list.html#ISC)
 
 ## Prerequisites
 

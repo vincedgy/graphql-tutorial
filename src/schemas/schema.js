@@ -5,7 +5,8 @@ import {
   GraphQLSchema,
   GraphQLString,
   GraphQLList,
-  GraphQLInt
+  GraphQLInt,
+  GraphQLNonNull
 } from 'graphql'
 
 import { UserType, HobbyType, PostType } from './types_schemas'
@@ -77,7 +78,7 @@ const Mutation = new GraphQLObjectType({
     CreateUser: {
       type: UserType,
       args: {
-        name: { type: GraphQLString },
+        name: { type: new GraphQLNonNull(GraphQLString) },
         age: { type: GraphQLInt },
         profession: { type: GraphQLString }
       },
@@ -93,12 +94,13 @@ const Mutation = new GraphQLObjectType({
     CreatePost: {
       type: PostType,
       args: {
-        comment: { type: GraphQLString },
-        userId: { type: GraphQLID }
+        comment: { type: new GraphQLNonNull(GraphQLString) },
+        userId: { type: new GraphQLNonNull(GraphQLID) }
       },
       resolve(parent, args) {
         logger.log('Post created')
         let post = new Post({ ...args, creation: new Date() })
+
         post
           .save()
           .then(a => logger.log(a))
@@ -109,13 +111,13 @@ const Mutation = new GraphQLObjectType({
     CreateHobby: {
       type: HobbyType,
       args: {
-        title: { type: GraphQLString },
+        title: { type: new GraphQLNonNull(GraphQLString) },
         description: { type: GraphQLString },
-        userId: { type: GraphQLID }
+        userId: { type: new GraphQLNonNull(GraphQLID) }
       },
       resolve(parent, args) {
         logger.log('Hobby created')
-        let hobby = new Hobby({ ...args })
+        let hobby = new Hobby({ ...args, creation: new Date()  })
         hobby
           .save()
           .then(() => logger.log('Created'))
