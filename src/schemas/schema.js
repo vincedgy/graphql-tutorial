@@ -75,6 +75,9 @@ const RootQuery = new GraphQLObjectType({
 const Mutation = new GraphQLObjectType({
   name: 'Mutation',
   fields: {
+    /**
+     *
+     */
     CreateUser: {
       type: UserType,
       args: {
@@ -91,6 +94,28 @@ const Mutation = new GraphQLObjectType({
         return user
       }
     },
+
+    /**
+     *
+     */
+    UpdateUser: {
+      type: UserType,
+      args: {
+        id: { type: new GraphQLNonNull(GraphQLID) },
+        name: { type: GraphQLString },
+        age: { type: GraphQLInt },
+        profession: { type: GraphQLString }
+      },
+      resolve(parent, args) {
+        return User.findByIdAndUpdate(args.id, {...args})
+          .then(() => logger.log('Updated'))
+          .catch(err => logger.error(err))
+      }
+    },
+
+    /**
+     *
+     */
     CreatePost: {
       type: PostType,
       args: {
@@ -117,7 +142,7 @@ const Mutation = new GraphQLObjectType({
       },
       resolve(parent, args) {
         logger.log('Hobby created')
-        let hobby = new Hobby({ ...args, creation: new Date()  })
+        let hobby = new Hobby({ ...args, creation: new Date() })
         hobby
           .save()
           .then(() => logger.log('Created'))
