@@ -1,3 +1,5 @@
+![](https://github.com/vincedgy/graphql-tutorial/workflows/Node%20CI/badge.svg)
+
 GraphQL with nodeJS and express
 ---------------------------------
 
