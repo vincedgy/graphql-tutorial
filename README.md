@@ -50,12 +50,26 @@ package.json contains depencies for this app and ```npm install``` will install 
 npm ci
 ```
 
-## run
+## Set configs
+
+The app use ```dotenv```. You'll need to create a .env file with the following vars and with the proper values !
 
 ```shell
-npm start
+MONGODB_PASSWORD=whatever
+MONGODB_PASSWORD=yoursecret
+MONGODB_HOST=yourhost
+MONGODB_NAME=yourdbname
 ```
 
+## Run
+
+This command will launch installation of depencies, build and start the server
+
+```shell
+$ npm ci
+$ npm run build
+$ npm run start
+```
 
 ## Development
 
@@ -91,7 +105,7 @@ Now you can pu breakpoints and checkout variables within Visual Studio Code
 
 ## Build
 
-Build the webpack bundle
+Build the webpack bundle, will create a 'bundle.js' file within 'dist-prod' directory.
 
 ```shell
 $ npm run build
@@ -125,7 +139,7 @@ Entrypoint main = bundle.js
 
 ```
 
-now you can launch yourself the production build
+Now you can launch yourself the production build
 
 ```shell
 $ node ./build/bundle.js
@@ -453,7 +467,15 @@ origin	git@github.com:vincedgy/graphql-tutorial.git (push)
 
 ```
 
-Deploy the app
+### Adding config in Heroku
+
+You need to set all the vars needed (locally in a .env file for your dev)
+
+```shell
+heroku config:set MONGODB_PASSWORD=vincent MONGODB_PASSWORD=12345 MONGODB_HOST=cluster-1-p0lig.mongodb.net MONGODB_NAME=test
+```
+
+### Deploy the app
 
 ```shell
 $ git push heroku master
