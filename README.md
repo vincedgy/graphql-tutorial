@@ -23,6 +23,7 @@
 - MongoDB Atlas account, a cluster and a user to connect with
 - eslint globally installed
 - webpack-cli globally installed
+- heroku-cli (if you have an account)
 
 ## Main dependencies
 
@@ -33,7 +34,7 @@
 - Webpack : [https://webpack.js.org/](https://webpack.js.org/)
 - MongoDB Atlas : [https://cloud.mongodb.com](https://cloud.mongodb.com)
 - Mongoose : [https://mongoosejs.com/](https://mongoosejs.com/)
-
+- Heroku : [https://dashboard.heroku.com/apps](https://dashboard.heroku.com/apps)
 
 ### But also
 
