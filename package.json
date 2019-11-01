@@ -5,8 +5,8 @@
   "main": "src/index.js",
   "scripts": {
     "clean": "rimraf dist dist-prod",
-    "watch": "babel src --out-dir dist --source-maps --watch --verbose",
-    "serve": "nodemon",
+    "watch": "babel src --out-dir dist --source-maps --watch --verbose --color",
+    "serve": "nodemon dist/index.js",
     "build": "webpack --config ./webpack.config.js --mode production",
     "start": "LOGGY_STACKS=1 node dist-prod/bundle.js"
   },
@@ -20,12 +20,15 @@
   "author": "Vincent DAGOURY",
   "license": "ISC",
   "dependencies": {
+    "apollo-datasource": "^0.6.3",
+    "apollo-server": "^2.9.7",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-graphql": "^0.9.0",
     "graphql": "^14.5.8",
     "graphql-iso-date": "^3.6.1",
+    "graphql-tools": "^4.0.6",
     "lodash": "^4.17.15",
     "loggy": "^1.0.8",
     "mongoose": "^5.7.7"
@@ -40,6 +43,7 @@
     "clean-webpack-plugin": "^3.0.0",
     "eslint": "^6.6.0",
     "eslint-loader": "^3.0.2",
+    "eslint-plugin-graphql": "^3.1.0",
     "kill-port": "^1.6.0",
     "nodemon": "^1.19.4",
     "prettier": "^1.18.2",

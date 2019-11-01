@@ -1,12 +1,31 @@
 ![](https://github.com/vincedgy/graphql-tutorial/workflows/Node%20CI/badge.svg)
 
-## GraphQL with nodeJS and express
+GraphQL with nodeJS and express
+-------------------------------
 
-- Author : Vincent DAGOURY
-- Date : 2019/10
-- License : ISC [https://www.gnu.org/licenses/license-list.html#ISC](https://www.gnu.org/licenses/license-list.html#ISC)
+>
+  - Author : Vincent DAGOURY
+  - Date : 2019/10
+  - License : ISC [https://www.gnu.org/licenses/license-list.html#ISC](https://www.gnu.org/licenses/license-list.html#ISC)
 
-## Objectives
+
+## Table of Contents
+
+1. [Project objectives](#Project-objectives)
+2. [Prerequisites](#Prerequisites)
+3. [Dependencies](#Dependencies)
+4. [Installation](#Installation)
+5. [Setting configs](#Setting-configs)
+6. [Running the app](#Running-the-app)
+7. [Develop the app](#Develop-the-app)
+8. [Debugging the app](#Debugging-the-app)
+9. [Build the app](#Build-the-app)
+10. [GraphQL Queries](#GraphQL-Queries)
+11. [Using Docker](#Using-Docker)
+12. [Using heroku](#Using-Heroku)
+13. [Using Apollo](#Using-Apollo)
+
+## Project objectives
 
 - Learn GraphQL with Node.js written in ES6
 - Go in depth with Babel (for ES6 compilation) and Webpack (for packaging)
@@ -15,6 +34,7 @@
 - Using a Cloud Backend like MongoDB Atlas
 - Using a Docker container at this end
 - Use Heroku and deploy the server to the World
+- Use Apollo as the number one framework for our GraphQL server
 
 ## Prerequisites
 
@@ -25,7 +45,7 @@
 - webpack-cli globally installed
 - heroku-cli (if you have an account)
 
-## Main dependencies
+## Dependencies
 
 - NodeJs : [https://nodejs.org/en/](https://nodejs.org/en/)
 - GraphQL : [https://graphql.org/](https://graphql.org/)
@@ -35,14 +55,14 @@
 - MongoDB Atlas : [https://cloud.mongodb.com](https://cloud.mongodb.com)
 - Mongoose : [https://mongoosejs.com/](https://mongoosejs.com/)
 - Heroku : [https://dashboard.heroku.com/apps](https://dashboard.heroku.com/apps)
+- Apollo : [https://www.apollographql.com/docs/](https://www.apollographql.com/docs/)
 
 ### But also
 
 - Visual Studio Code : [https://code.visualstudio.com/](https://code.visualstudio.com/)
 - Docker : [https://www.docker.com/](https://www.docker.com/)
 
-
-## Install
+## Installation
 
 package.json contains depencies for this app and ```npm install``` will install them.
 
@@ -50,7 +70,7 @@ package.json contains depencies for this app and ```npm install``` will install 
 npm ci
 ```
 
-## Set configs
+## Setting configs
 
 The app use ```dotenv```. You'll need to create a .env file with the following vars and with the proper values !
 
@@ -61,7 +81,7 @@ MONGODB_HOST=yourhost
 MONGODB_NAME=yourdbname
 ```
 
-## Run
+## Running the app
 
 This command will launch installation of depencies, build and start the server
 
@@ -71,7 +91,7 @@ $ npm run build
 $ npm run start
 ```
 
-## Development
+## Develop the app
 
 Executing server during dev
 
@@ -79,7 +99,7 @@ Executing server during dev
 $ npm run serve
 ```
 
-## Debug
+## Debugging the app
 
 Executing server in watch mode while debugging with vscode with 'Debug' config of .vscode/launch.json
 
@@ -103,7 +123,7 @@ Successfully compiled 7 files with Babel.
 
 Now you can pu breakpoints and checkout variables within Visual Studio Code
 
-## Build
+## Build the app
 
 Build the webpack bundle, will create a 'bundle.js' file within 'dist-prod' directory.
 
@@ -145,9 +165,9 @@ Now you can launch yourself the production build
 $ node ./build/bundle.js
 ```
 
-## Queries
+# GraphQL Queries
 
-You should use GraphiQL (http://localhost:4000/graphql)[http://localhost:4000/graphql]
+You'll be able to query with the help of integrated GraphiQL at [http://localhost:4000/graphql](http://localhost:4000/graphql)
 
 ```graphql
 query {
@@ -216,8 +236,6 @@ X-Powered-By: Express
 }
 ```
 
-
-
 ### Mutations
 
 ```graphql
@@ -266,7 +284,7 @@ mutation {
 }
 ```
 
-## Querying all users
+### Querying all users
 
 ```graphql
 {
@@ -288,7 +306,7 @@ mutation {
 }
 ```
 
-## Same with MongoDB in the backend
+### Same with MongoDB in the backend
 
 ```graphql
 # Create some Documents
@@ -340,7 +358,11 @@ query {
 }
 ```
 
-## Build and run Docker container
+----
+
+# Using Docker
+
+Now let's build our GraphQL as a Docker container !
 
 A Dockerfile can build the containerized version of this app.
 
@@ -442,9 +464,10 @@ $ docker run -it -p 4000:4000 graphql-tutorial:latest
 
 ```
 
+----
 
 
-## Deploy to heroku
+# Using heroku
 
 Assuming you have an account on heroku and you know its capabilites to push apps [https://devcenter.heroku.com/articles/getting-started-with-nodejs#deploy-the-app](https://devcenter.heroku.com/articles/getting-started-with-nodejs#deploy-the-app)...
 
@@ -585,4 +608,40 @@ To https://git.heroku.com/spooky-cat-34882.git
 
 ```shell
 $ heroku logs --tail
+```
+
+# Using Apollo
+
+Now that everything is working, let's play with the number ONE framework for GraphQL : [Apollo](https://www.apolUsinglographql.com/)
+
+A complete framework and a platform, with a very accomplished user experience, schema definition using a DSL (gql), many implemntation in many languages, Chrome extensions etc.
+
+The main goal of Apollo is to give a `declarative data fetching` platform.
+
+And it uses [GraphQL Playground](GraphQL Playground), way more better than GraphiQL...
+
+It's a whole refactoring process, Of Course, but the multiple [benefits](https://www.apollographql.com/docs/intro/benefits/) of Apollo platform worst it.
+
+You'll use [Apollo Engine](https://engine.apollographql.com/login) and read a lot of [documentation](https://www.apollographql.com/docs/) but the Apollo experience on both sides is totally game changing.
+
+Create your Apollo Engine account (using Github Auth), it's free !
+
+## Dependencies
+
+Local and global dependencies are needed in order to user Apollo plateform.
+
+And first you will use Apollo platform and service to publish your schema, serving you with a lot of toolings using [Apollo Engine](https://engine.apollographql.com/login).
+
+
+```shell
+npm install --global apollo
+```
+
+Now the local dependencies :
+
+- [apollo-server](https://www.npmjs.com/package/apollo-server)
+- [apollo-tools](https://www.npmjs.com/package/@apollographql/apollo-tools)
+
+```shell
+npm install --save apollo-server apollo-tools
 ```

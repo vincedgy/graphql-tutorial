@@ -1,257 +1,125 @@
-import logger from 'loggy'
-import {
-  GraphQLObjectType,
-  GraphQLID,
-  GraphQLSchema,
-  GraphQLString,
-  GraphQLList,
-  GraphQLInt,
-  GraphQLNonNull
-} from 'graphql'
+const { gql } = require('apollo-server')
 
-import { UserType, HobbyType, PostType } from './types_schemas'
+export default gql`
+  # Your schema will go here
+  type Query {
+    """
+    Retrieve all users
+    """
+    users: [User]!
 
-import User from '../model/User'
-import Post from '../model/Post'
-import Hobby from '../model/Hobby'
+    """
+    Fetch one user by the id
+    """
+    user(id: ID!): User
 
-// RootQuery
-const RootQuery = new GraphQLObjectType({
-  name: 'RootQueryType',
-  description: 'The root query',
-  fields: {
-    user: {
-      type: UserType,
-      args: {
-        id: { type: GraphQLID }
-      },
-      resolve(parent, args) {
-        return User.findById(args.id)
-      }
-    },
-    hobby: {
-      type: HobbyType,
-      args: {
-        id: { type: GraphQLID }
-      },
-      resolve(parent, args) {
-        return Hobby.findById(args.id)
-      }
-    },
-    post: {
-      type: PostType,
-      args: {
-        id: { type: GraphQLID }
-      },
-      resolve(parent, args) {
-        return Post.findById(args.id)
-      }
-    },
-    users: {
-      type: new GraphQLList(UserType),
-      resolve() {
-        logger.info('Looking for users')
-        return User.find()
-      }
-    },
-    posts: {
-      type: new GraphQLList(PostType),
-      resolve() {
-        logger.info('Looking for posts')
-        return Post.find()
-      }
-    },
-    hobbies: {
-      type: new GraphQLList(HobbyType),
-      resolve() {
-        logger.info('Looking for hobbies')
-        return Hobby.find()
-      }
-    }
+    hobbies: [Hobby]!
+    hobby(id: ID!): Hobby
+    posts: [Post]!
+    post(id: ID!): Post
   }
-})
 
-// Mutations
-const Mutation = new GraphQLObjectType({
-  name: 'Mutation',
-  fields: {
-    /**
-     * User's Mutations
-     */
-    CreateUser: {
-      type: UserType,
-      args: {
-        name: {
-          type: new GraphQLNonNull(GraphQLString),
-          description: 'The name of the new user'
-        },
-        age: { type: GraphQLInt, description: 'The age of the new user' },
-        profession: {
-          type: GraphQLString,
-          description: 'The profession of the new user'
-        }
-      },
-      resolve(parent, args) {
-        let user = new User({ ...args })
-        user
-          .save()
-          .then(() => logger.log('Created'))
-          .catch(err => logger.error(err))
-        return user
-      }
-    },
+  type Mutation {
+    """
+    Delete the given user
+    """
+    DeleteUser(id: [ID]!): Response!
 
-    UpdateUser: {
-      type: UserType,
-      args: {
-        id: {
-          type: new GraphQLNonNull(GraphQLID),
-          description: "The user's id to be updated"
-        },
-        name: { type: GraphQLString, description: 'The new name' },
-        age: { type: GraphQLInt, description: 'The new age' },
-        profession: { type: GraphQLString, description: 'The new profession' }
-      },
-      resolve(parent, args) {
-        return User.findByIdAndUpdate(args.id, { ...args }, { new: true })
-          .then(newUser => {
-            logger.log(`User ${args.id} is now updated`)
-            return newUser
-          })
-          .catch(err => logger.error(err))
-      }
-    },
+    """
+    Update the given user (age, profession)
+    """
+    UpdateUser(id: [ID]!, age: Int, profession: String): Response!
 
-    DeleteUser: {
-      type: UserType,
-      args: {
-        id: {
-          type: new GraphQLNonNull(GraphQLID),
-          description: 'The id of the user to delete'
-        }
-      },
-      resolve(parent, args) {
-        return User.findByIdAndDelete(args.id)
-          .then(() => logger.log(`User ${args.id} is deleted`))
-          .catch(err => logger.error(err))
-      }
-    },
-
-    /**
-     * Post's mutations
-     */
-    CreatePost: {
-      type: PostType,
-      args: {
-        comment: { type: new GraphQLNonNull(GraphQLString) },
-        userId: { type: new GraphQLNonNull(GraphQLID) }
-      },
-      resolve(parent, args) {
-        logger.log('Post created')
-        let post = new Post({ ...args, creation: new Date() })
-
-        post
-          .save()
-          .then(a => logger.log(a))
-          .catch(err => logger.error(err))
-        return post
-      }
-    },
-
-    UpdatePost: {
-      type: PostType,
-      args: {
-        id: {
-          type: new GraphQLNonNull(GraphQLID),
-          description: "The post's id to be updated"
-        },
-        comment: {
-          type: new GraphQLNonNull(GraphQLString),
-          description: 'The new comment'
-        }
-      },
-      resolve(parent, args) {
-        return Post.findByIdAndUpdate(args.id, { ...args }, { new: true })
-          .then(newPost => {
-            logger.log(`Post ${args.id} is now updated`)
-            return newPost
-          })
-          .catch(err => logger.error(err))
-      }
-    },
-
-    DeletePost: {
-      type: PostType,
-      args: {
-        id: {
-          type: new GraphQLNonNull(GraphQLID),
-          description: 'The id of the post to delete'
-        }
-      },
-      resolve(parent, args) {
-        return Post.findByIdAndDelete(args.id)
-          .then(() => logger.log(`Post ${args.id} is deleted`))
-          .catch(err => logger.error(err))
-      }
-    },
-
-    /**
-     * Hobby's mutations
-     */
-    CreateHobby: {
-      type: HobbyType,
-      args: {
-        title: { type: new GraphQLNonNull(GraphQLString) },
-        description: { type: GraphQLString },
-        userId: { type: new GraphQLNonNull(GraphQLID) }
-      },
-      resolve(parent, args) {
-        logger.log('Hobby created')
-        let hobby = new Hobby({ ...args, creation: new Date() })
-        hobby
-          .save()
-          .then(() => logger.log('Created'))
-          .catch(err => logger.error(err))
-        return hobby
-      }
-    },
-    UpdateHobby: {
-      type: HobbyType,
-      args: {
-        id: {
-          type: new GraphQLNonNull(GraphQLID),
-          description: "The hobby's id to be updated"
-        },
-        title: { type: GraphQLString, description: 'The new title' },
-        description: { type: GraphQLString, description: 'The new description' }
-      },
-      resolve(parent, args) {
-        return Hobby.findByIdAndUpdate(args.id, { ...args }, { new: true })
-          .then(newHobby => {
-            logger.log(`Hobby ${args.id} is now updated`)
-            return newHobby
-          })
-          .catch(err => logger.error(err))
-      }
-    },
-    DeleteHobby: {
-      type: HobbyType,
-      args: {
-        id: {
-          type: new GraphQLNonNull(GraphQLID),
-          description: 'The id of the hobby to delete'
-        }
-      },
-      resolve(parent, args) {
-        return Hobby.findByIdAndDelete(args.id)
-          .then(() => logger.log(`Hobby ${args.id} is deleted`))
-          .catch(err => logger.error(err))
-      }
-    }
+    """
+    Create a new user
+    """
+    CreateUser(
+      id: [ID]!
+      name: String!
+      email: String!
+      age: Int
+      profession: String
+    ): Response!
   }
-})
 
-export default new GraphQLSchema({
-  query: RootQuery,
-  mutation: Mutation
-})
+  """
+  Response given for mutations
+  """
+  type Response {
+    success: Boolean!
+    message: String
+  }
+
+  enum Status {
+    ACTIVE
+    INACTIVE
+  }
+
+  # My schema now...
+
+  """
+  A person with first and last names
+  """
+  type Person {
+    id: ID!
+    firstName: String
+    lastName: String
+    isMarried: Boolean
+  }
+
+  """
+  A User is a person, but also a consummer of services with posts and hobbies, email, age and profession
+  """
+  type User {
+    id: ID!
+
+    """
+    A user is linked to a Person (GDPR), or not.
+    """
+    person: Person
+
+    """
+    The casual name of the user. The user use the login to authentication, not the name
+    """
+    name: String!
+
+    """
+    Email is very important since it allow the system to authenticate the User
+    """
+    email: String!
+
+    """
+    Email verification garanties the User's email ownership
+    """
+    verified: Boolean
+
+    age: Int
+    profession: String
+    status: Status
+    posts: [Post]
+    hobbies: [Hobby]
+  }
+
+  """
+  Something a user like to do
+  """
+  type Hobby {
+    id: ID!
+    title: String!
+    description: String
+    creation: Int
+    user: User!
+    status: Status!
+  }
+
+  """
+  Something a user like to share
+  """
+  type Post {
+    id: ID!
+    title: String!
+    comment: String
+    creation: Int
+    user: User!
+  }
+`

@@ -4,7 +4,12 @@
         "es6": true,
         "node": true
     },
-    "extends": "eslint:recommended",
+    "extends": [
+      "eslint:recommended"
+    ],
+    "plugins": [
+      "eslint-plugin-graphql"
+    ],
     "globals": {
         "Atomics": "readonly",
         "SharedArrayBuffer": "readonly"
