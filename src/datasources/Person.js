@@ -1,11 +1,13 @@
 import mongoose from 'mongoose'
 
 export default mongoose.model(
-  'User',
+  'Person',
   new mongoose.Schema({
-    name: String,
-    email: String,
+    firstName: String,
+    lastName: String,
+    age: Number,
     profession: String,
-    creation: Date
+    creation: Date,
+    userId: String
   })
 )

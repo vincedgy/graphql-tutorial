@@ -8,17 +8,40 @@ const { MONGODB_HOST, MONGODB_NAME } = process.env
 const PORT = process.env.PORT || 4000
 const MONGODB_URI = `mongodb+srv://${MONGODB_HOST}/${MONGODB_NAME}?retryWrites=true&w=majority`
 
+// Utils and API
+import { getUser } from './utils'
+
 // Apollo Server definition
-import { ApolloServer } from 'apollo-server'
+import { ApolloServer, AuthenticationError } from 'apollo-server'
 import { makeExecutableSchema } from 'graphql-tools'
-import typeDefs from './schemas/schema'
-import resolvers from './schemas/resolvers'
+
+import typeDefs from './schema'
+import resolvers from './resolvers'
+
 export const schema = makeExecutableSchema({
   typeDefs,
   resolvers,
   logger
 })
-const server = new ApolloServer({ cors: true, schema })
+
+const server = new ApolloServer({
+  cors: true,
+  schema,
+  context: ({ req }) => {
+    // get the user token from the headers
+    const token = req.headers.authorization || ''
+
+    // try to retrieve a user with the token
+    const user = getUser(token)
+
+    // optionally block the user
+    // we could also check user roles/permissions here
+    if (!user) throw new AuthenticationError('you must be logged in')
+
+    // add the user to the context
+    return { user }
+  }
+})
 
 // Open the connection to database
 // Then start the app

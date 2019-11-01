@@ -1,6 +1,8 @@
 const { gql } = require('apollo-server')
 
-export default gql`
+const typeDefs = gql`
+  scalar DATE_TIME
+
   # Your schema will go here
   type Query {
     """
@@ -17,6 +19,9 @@ export default gql`
     hobby(id: ID!): Hobby
     posts: [Post]!
     post(id: ID!): Post
+
+    persons: [Person]!
+    person(id: ID!): Person
   }
 
   type Mutation {
@@ -26,20 +31,59 @@ export default gql`
     DeleteUser(id: [ID]!): Response!
 
     """
-    Update the given user (age, profession)
+    Update the given user
     """
-    UpdateUser(id: [ID]!, age: Int, profession: String): Response!
+    UpdateUser(
+      id: [ID]!
+      name: String
+      personId: ID
+      verified: Boolean
+    ): Response!
 
     """
     Create a new user
     """
     CreateUser(
-      id: [ID]!
       name: String!
       email: String!
+      personId: String
+      verified: Boolean
+    ): Response!
+
+    DeletePerson(id: [ID]!): Response!
+    UpdatePerson(
+      id: [ID]!
+      firstName: String
+      lastName: String
+      isMarried: Boolean
       age: Int
       profession: String
     ): Response!
+    CreatePerson(
+      name: String!
+      email: String!
+      isMarried: Boolean
+      age: Int
+      profession: String
+    ): Response!
+
+    DeleteHobby(id: [ID]!): Response!
+    UpdateHobby(
+      id: [ID]!
+      title: String
+      description: String
+      status: Status
+    ): Response!
+    CreateHobby(
+      userId: ID!
+      title: String!
+      description: String
+      status: Status
+    ): Response!
+
+    DeletePost(id: [ID]!): Response!
+    UpdatePost(id: [ID]!, title: String, comment: String): Response!
+    CreatePost(userId: ID!, title: String!, comment: String): Response!
   }
 
   """
@@ -65,6 +109,9 @@ export default gql`
     firstName: String
     lastName: String
     isMarried: Boolean
+    age: Int
+    profession: String
+    creation: DATE_TIME
   }
 
   """
@@ -72,6 +119,8 @@ export default gql`
   """
   type User {
     id: ID!
+
+    creation: DATE_TIME
 
     """
     A user is linked to a Person (GDPR), or not.
@@ -93,10 +142,14 @@ export default gql`
     """
     verified: Boolean
 
-    age: Int
-    profession: String
-    status: Status
+    """
+    Posts of the user
+    """
     posts: [Post]
+
+    """
+    Hobbies of the user
+    """
     hobbies: [Hobby]
   }
 
@@ -105,10 +158,11 @@ export default gql`
   """
   type Hobby {
     id: ID!
+    creation: DATE_TIME
+    user: User!
+
     title: String!
     description: String
-    creation: Int
-    user: User!
     status: Status!
   }
 
@@ -117,9 +171,11 @@ export default gql`
   """
   type Post {
     id: ID!
+    creation: DATE_TIME
+    user: User!
+
     title: String!
     comment: String
-    creation: Int
-    user: User!
   }
 `
+export default typeDefs
