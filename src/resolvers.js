@@ -1,8 +1,5 @@
 import logger from 'loggy'
-import User from './datasources/User'
-import Person from './datasources/Person'
-import Post from './datasources/Post'
-import Hobby from './datasources/Hobby'
+import { UserEntity, PersonEntity, PostEntity, HobbyEntity } from './entities'
 
 import { GraphQLDateTime } from 'graphql-iso-date'
 
@@ -10,21 +7,21 @@ export default {
   DATE_TIME: GraphQLDateTime,
 
   Query: {
-    users: () => User.find(),
-    user: (_, args) => User.findById(args.id),
-    hobbies: () => Hobby.find(),
-    hobby: (_, args) => Hobby.findById(args.id),
-    posts: () => Post.find(),
-    post: (_, args) => Post.findById(args.id),
-    persons: () => Person.find(),
-    person: (_, args) => Person.findById(args.id)
+    users: () => UserEntity.find(),
+    user: (_, args) => UserEntity.findById(args.id),
+    hobbies: () => HobbyEntity.find(),
+    hobby: (_, args) => HobbyEntity.findById(args.id),
+    posts: () => PostEntity.find(),
+    post: (_, args) => PostEntity.findById(args.id),
+    persons: () => PersonEntity.find(),
+    person: (_, args) => PersonEntity.findById(args.id)
   },
   Mutation: {
     /**
      * User mutations
      */
     UpdateUser: async (_, args) => {
-      const updatedUser = await User.findByIdAndUpdate(
+      const updatedUser = await UserEntity.findByIdAndUpdate(
         args.id,
         { ...args },
         { new: true }
@@ -37,7 +34,7 @@ export default {
       }
     },
     DeleteUser: async (_, { id }) => {
-      const deletedUser = await User.findByIdAndDelete(id)
+      const deletedUser = await UserEntity.findByIdAndDelete(id)
       return {
         success: deletedUser ? true : false,
         message: deletedUser
@@ -46,7 +43,7 @@ export default {
       }
     },
     CreateUser: async (_, args) => {
-      const createdUser = await new User({
+      const createdUser = await new UserEntity({
         ...args,
         creation: new Date()
       }).save()
@@ -61,7 +58,7 @@ export default {
      * Person mutations
      */
     UpdatePerson: async (_, args) => {
-      const updatedPerson = await Person.findByIdAndUpdate(
+      const updatedPerson = await PersonEntity.findByIdAndUpdate(
         args.id,
         { ...args },
         { new: true }
@@ -74,7 +71,7 @@ export default {
       }
     },
     DeletePerson: async (_, { id }) => {
-      const deletedPerson = await Person.findByIdAndDelete(id)
+      const deletedPerson = await PersonEntity.findByIdAndDelete(id)
       return {
         success: deletedPerson ? true : false,
         message: deletedPerson
@@ -83,7 +80,7 @@ export default {
       }
     },
     CreatePerson: async (_, args) => {
-      const createdPerson = await new Person({
+      const createdPerson = await new PersonEntity({
         ...args,
         creation: new Date()
       }).save()
@@ -98,7 +95,7 @@ export default {
      * Hobby mutations
      */
     UpdateHobby: async (_, args) => {
-      const updatedHobby = await Hobby.findByIdAndUpdate(
+      const updatedHobby = await HobbyEntity.findByIdAndUpdate(
         args.id,
         { ...args },
         { new: true }
@@ -111,7 +108,7 @@ export default {
       }
     },
     DeleteHobby: async (_, { id }) => {
-      const deletedHobby = await Hobby.findByIdAndDelete(id)
+      const deletedHobby = await HobbyEntity.findByIdAndDelete(id)
       return {
         success: deletedHobby ? true : false,
         message: deletedHobby
@@ -120,7 +117,7 @@ export default {
       }
     },
     CreateHobby: async (_, args) => {
-      const createdHobby = await new Hobby({
+      const createdHobby = await new HobbyEntity({
         ...args,
         status: args.status || 'UNDEFINED',
         creation: new Date()
@@ -136,7 +133,7 @@ export default {
      * Post mutations
      */
     UpdatePost: async (_, args) => {
-      const updatedPost = await Post.findByIdAndUpdate(
+      const updatedPost = await PostEntity.findByIdAndUpdate(
         args.id,
         { ...args },
         { new: true }
@@ -149,7 +146,7 @@ export default {
       }
     },
     DeletePost: async (_, { id }) => {
-      const deletedPost = await Post.findByIdAndDelete(id)
+      const deletedPost = await PostEntity.findByIdAndDelete(id)
       return {
         success: deletedPost ? true : false,
         message: deletedPost
@@ -158,7 +155,7 @@ export default {
       }
     },
     CreatePost: async (_, args) => {
-      const createdPost = await new Post({
+      const createdPost = await new PostEntity({
         ...args,
         creation: new Date()
       }).save()
@@ -177,20 +174,20 @@ export default {
   User: {
     posts: async ({ id }) => {
       logger.log(`Looking for posts of user ${id}`)
-      const posts = await Post.find()
+      const posts = await PostEntity.find()
         .where('userId')
         .equals(id)
       return posts
     },
     hobbies: ({ id }) => {
       logger.log(`Looking for hobbies of user ${id}`)
-      return Hobby.find()
+      return HobbyEntity.find()
         .where('userId')
         .equals(id)
     },
     person: async ({ id }) => {
       logger.log(`Looking for the person of user ${id}`)
-      return Person.findOne({ userId: id })
+      return PersonEntity.findOne({ userId: id })
     }
   },
 
@@ -200,7 +197,7 @@ export default {
   Hobby: {
     user: ({ id, userId }) => {
       logger.log(`Looking for user ${userId} of hobby ${id}`)
-      return User.findById(userId)
+      return UserEntity.findById(userId)
     }
   },
 
@@ -210,7 +207,7 @@ export default {
   Post: {
     user: ({ id, userId }) => {
       logger.log(`Looking for user ${userId} of post ${id}`)
-      return User.findById(userId)
+      return UserEntity.findById(userId)
     }
   },
 
@@ -220,7 +217,7 @@ export default {
   Person: {
     user: ({ id, userId }) => {
       logger.log(`Looking for user ${userId} of person ${id}`)
-      return User.findById(userId)
+      return UserEntity.findById(userId)
     }
   }
 }

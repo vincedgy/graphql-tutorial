@@ -1,6 +1,7 @@
 import 'dotenv/config'
-import mongoConfig from './mongo'
 import logger from 'loggy'
+
+import CONFIG from './mongo'
 import mongoose from 'mongoose'
 
 // Vars from env
@@ -46,7 +47,7 @@ const server = new ApolloServer({
 // Open the connection to database
 // Then start the app
 mongoose
-  .connect(MONGODB_URI, mongoConfig)
+  .connect(MONGODB_URI, CONFIG)
   .then(() => {
     server
       .listen(PORT)
