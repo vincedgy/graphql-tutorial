@@ -2,7 +2,7 @@ const nodeExternals = require('webpack-node-externals')
 const PrettierPlugin = require('prettier-webpack-plugin')
 
 module.exports = {
-  entry: './src/index.js',
+  entry: './dist/index.js',
   plugins: [new PrettierPlugin()],
   module: {
     rules: [
