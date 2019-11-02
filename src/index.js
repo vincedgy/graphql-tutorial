@@ -51,7 +51,7 @@ mongoose
     server
       .listen(PORT)
       .then(({ url }) => {
-        logger.log(`🚀 Server's ready at ${url}graphql`)
+        logger.info(`🚀 Server's ready at ${url}graphql`)
       })
       .catch(err => {
         logger.error('FATAL : Error while server startup', err)

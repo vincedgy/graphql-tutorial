@@ -2,16 +2,16 @@
   "name": "graphql-tutorial",
   "version": "4.0.0",
   "description": "A project to explore GraphQL written in ES6 with babel and webpack",
-  "main": "src/index.js",
+  "main": "dist/index.js",
   "engines": {
     "node": "12.13.0",
     "npm": "6.12.1"
   },
   "scripts": {
     "clean": "rimraf dist dist-prod",
-    "watch": "babel src --out-dir dist --source-maps --watch --verbose --color",
-    "serve": "LOGGY_STACKS=1 nodemon dist/index.js",
-    "compile": "babel src --out-dir dist --verbose",
+    "watch": "babel --out-dir dist --source-maps --watch --verbose --env-name dev src",
+    "serve": "nodemon dist/index.js",
+    "compile": "babel --out-dir dist --verbose  --no-comments --compact true --minified src",
     "build": "npm run compile && webpack --config ./webpack.config.js --mode production",
     "start": "LOGGY_STACKS=1 node dist-prod/bundle.js"
   },

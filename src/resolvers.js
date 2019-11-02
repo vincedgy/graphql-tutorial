@@ -176,20 +176,20 @@ export default {
    */
   User: {
     posts: async ({ id }) => {
-      logger.info(`Looking for posts of user ${id}`)
+      logger.log(`Looking for posts of user ${id}`)
       const posts = await Post.find()
         .where('userId')
         .equals(id)
       return posts
     },
     hobbies: ({ id }) => {
-      logger.info(`Looking for hobbies of user ${id}`)
+      logger.log(`Looking for hobbies of user ${id}`)
       return Hobby.find()
         .where('userId')
         .equals(id)
     },
     person: async ({ id }) => {
-      logger.info(`Looking for the person of user ${id}`)
+      logger.log(`Looking for the person of user ${id}`)
       return Person.findOne({ userId: id })
     }
   },
@@ -199,7 +199,7 @@ export default {
    */
   Hobby: {
     user: ({ id, userId }) => {
-      logger.info(`Looking for user ${userId} of hobby ${id}`)
+      logger.log(`Looking for user ${userId} of hobby ${id}`)
       return User.findById(userId)
     }
   },
@@ -209,7 +209,7 @@ export default {
    */
   Post: {
     user: ({ id, userId }) => {
-      logger.info(`Looking for user ${userId} of post ${id}`)
+      logger.log(`Looking for user ${userId} of post ${id}`)
       return User.findById(userId)
     }
   },
@@ -219,7 +219,7 @@ export default {
    */
   Person: {
     user: ({ id, userId }) => {
-      logger.info(`Looking for user ${userId} of person ${id}`)
+      logger.log(`Looking for user ${userId} of person ${id}`)
       return User.findById(userId)
     }
   }
