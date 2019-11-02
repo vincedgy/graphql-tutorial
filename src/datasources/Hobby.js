@@ -6,6 +6,7 @@ export default mongoose.model(
     title: String,
     description: String,
     userId: String,
+    status: String,
     creation: Date
   })
 )

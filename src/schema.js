@@ -5,50 +5,20 @@ const typeDefs = gql`
 
   # Your schema will go here
   type Query {
-    """
-    Retrieve all users
-    """
     users: [User]!
-
-    """
-    Fetch one user by the id
-    """
     user(id: ID!): User
-
     hobbies: [Hobby]!
     hobby(id: ID!): Hobby
     posts: [Post]!
     post(id: ID!): Post
-
     persons: [Person]!
     person(id: ID!): Person
   }
 
   type Mutation {
-    """
-    Delete the given user
-    """
     DeleteUser(id: [ID]!): Response!
-
-    """
-    Update the given user
-    """
-    UpdateUser(
-      id: [ID]!
-      name: String
-      personId: ID
-      verified: Boolean
-    ): Response!
-
-    """
-    Create a new user
-    """
-    CreateUser(
-      name: String!
-      email: String!
-      personId: String
-      verified: Boolean
-    ): Response!
+    UpdateUser(id: [ID]!, name: String, verified: Boolean): Response!
+    CreateUser(name: String!, email: String!, verified: Boolean): Response!
 
     DeletePerson(id: [ID]!): Response!
     UpdatePerson(
@@ -58,13 +28,16 @@ const typeDefs = gql`
       isMarried: Boolean
       age: Int
       profession: String
+      userId: ID
     ): Response!
     CreatePerson(
-      name: String!
+      firstName: String!
+      lastName: String!
       email: String!
       isMarried: Boolean
       age: Int
       profession: String
+      userId: ID
     ): Response!
 
     DeleteHobby(id: [ID]!): Response!
@@ -83,7 +56,7 @@ const typeDefs = gql`
 
     DeletePost(id: [ID]!): Response!
     UpdatePost(id: [ID]!, title: String, comment: String): Response!
-    CreatePost(userId: ID!, title: String!, comment: String): Response!
+    CreatePost(userId: ID!, title: String!, comment: String!): Response!
   }
 
   """
@@ -95,6 +68,7 @@ const typeDefs = gql`
   }
 
   enum Status {
+    UNDEFINED
     ACTIVE
     INACTIVE
   }
@@ -111,6 +85,7 @@ const typeDefs = gql`
     isMarried: Boolean
     age: Int
     profession: String
+    user: User
     creation: DATE_TIME
   }
 
@@ -160,10 +135,9 @@ const typeDefs = gql`
     id: ID!
     creation: DATE_TIME
     user: User!
-
     title: String!
     description: String
-    status: Status!
+    status: Status
   }
 
   """
@@ -173,7 +147,6 @@ const typeDefs = gql`
     id: ID!
     creation: DATE_TIME
     user: User!
-
     title: String!
     comment: String
   }
