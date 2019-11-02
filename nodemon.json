@@ -1,13 +1,17 @@
 {
-  "verbose": true,
-  "exec": "babel-node src --out-dir dist --source-maps --verbose --watch",
-  "ignore": ["*.test.js", "fixtures/*"],
-  "watch": ["dist/**"],
-  "signal": "SIGHUP",
-  "ext": "js",
+  "verbose": false,
+  "ignore": [
+    ".git",
+    "node_modules/**/node_modules",
+    "*.test.js"
+  ],
+  "execMap": {
+    "js": "node -r dotenv/config"
+  },
+  "watch": ["./dist/**"],
+  "ext": "js,json",
   "events": {
-    "restart": "kill-port 4000",
-    "crash": "kill-port 4000"
+    "restart": "osascript -e 'display notification \"App restarted due to:\n'$FILENAME'\" with title \"nodemon\"'"
   },
   "delay": "2500"
 }

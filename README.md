@@ -2,11 +2,30 @@
 
 ## GraphQL with nodeJS and express
 
+>
+
 - Author : Vincent DAGOURY
 - Date : 2019/10
 - License : ISC [https://www.gnu.org/licenses/license-list.html#ISC](https://www.gnu.org/licenses/license-list.html#ISC)
 
-## Objectives
+## Table of Contents
+
+1. [Project objectives](#Project-objectives)
+2. [Prerequisites](#Prerequisites)
+3. [Dependencies](#Dependencies)
+4. [Installation](#Installation)
+5. [Setting configs](#Setting-configs)
+6. [Running the app](#Running-the-app)
+7. [Develop the app](#Develop-the-app)
+8. [Debugging the app](#Debugging-the-app)
+9. [Build the app](#Build-the-app)
+10. [GraphQL Queries](#GraphQL-Queries)
+11. [Using Docker](#Using-Docker)
+12. [Using Heroku](#Using-Heroku)
+13. [Using Apollo](#Using-Apollo)
+14. [Beyond](#Beyond)
+
+## Project objectives
 
 - Learn GraphQL with Node.js written in ES6
 - Go in depth with Babel (for ES6 compilation) and Webpack (for packaging)
@@ -15,6 +34,7 @@
 - Using a Cloud Backend like MongoDB Atlas
 - Using a Docker container at this end
 - Use Heroku and deploy the server to the World
+- Use Apollo as the number one framework for our GraphQL server
 
 ## Prerequisites
 
@@ -22,10 +42,10 @@
 - Visual Studio Code and usefull extensions
 - MongoDB Atlas account, a cluster and a user to connect with
 - eslint globally installed
-- webpack-cli globally installed
+- webpack-cli globally installed (optional)
 - heroku-cli (if you have an account)
 
-## Main dependencies
+## Dependencies
 
 - NodeJs : [https://nodejs.org/en/](https://nodejs.org/en/)
 - GraphQL : [https://graphql.org/](https://graphql.org/)
@@ -35,24 +55,24 @@
 - MongoDB Atlas : [https://cloud.mongodb.com](https://cloud.mongodb.com)
 - Mongoose : [https://mongoosejs.com/](https://mongoosejs.com/)
 - Heroku : [https://dashboard.heroku.com/apps](https://dashboard.heroku.com/apps)
+- Apollo : [https://www.apollographql.com/docs/](https://www.apollographql.com/docs/)
 
 ### But also
 
 - Visual Studio Code : [https://code.visualstudio.com/](https://code.visualstudio.com/)
 - Docker : [https://www.docker.com/](https://www.docker.com/)
 
+## Installation
 
-## Install
-
-package.json contains depencies for this app and ```npm install``` will install them.
+package.json contains depencies for this app and `npm install` will install them.
 
 ```shell
 npm ci
 ```
 
-## Set configs
+## Setting configs
 
-The app use ```dotenv```. You'll need to create a .env file with the following vars and with the proper values !
+The app use `dotenv`. You'll need to create a .env file with the following vars and with the proper values !
 
 ```shell
 MONGODB_PASSWORD=whatever
@@ -61,7 +81,7 @@ MONGODB_HOST=yourhost
 MONGODB_NAME=yourdbname
 ```
 
-## Run
+## Running the app
 
 This command will launch installation of depencies, build and start the server
 
@@ -71,7 +91,7 @@ $ npm run build
 $ npm run start
 ```
 
-## Development
+## Develop the app
 
 Executing server during dev
 
@@ -79,7 +99,7 @@ Executing server during dev
 $ npm run serve
 ```
 
-## Debug
+## Debugging the app
 
 Executing server in watch mode while debugging with vscode with 'Debug' config of .vscode/launch.json
 
@@ -103,7 +123,7 @@ Successfully compiled 7 files with Babel.
 
 Now you can pu breakpoints and checkout variables within Visual Studio Code
 
-## Build
+## Build the app
 
 Build the webpack bundle, will create a 'bundle.js' file within 'dist-prod' directory.
 
@@ -145,9 +165,9 @@ Now you can launch yourself the production build
 $ node ./build/bundle.js
 ```
 
-## Queries
+# GraphQL Queries
 
-You should use GraphiQL (http://localhost:4000/graphql)[http://localhost:4000/graphql]
+You'll be able to query with the help of integrated GraphiQL at [http://localhost:4000/graphql](http://localhost:4000/graphql)
 
 ```graphql
 query {
@@ -169,14 +189,14 @@ query {
 }
 ```
 
-You can use ```curl```
+You can use `curl`
 
 ```shell
 $ curl -s -H "Content-Type: application/json" --data '{ "query" : "{ users { name } }" }' localhost:4000/graphql
 {"data":{"users":[{"name":"Vincent DAGOURY"}]}}%
 ```
 
-combine with ```jq``` for nice presentation
+combine with `jq` for nice presentation
 
 ```shell
 $ curl -s -H "Content-Type: application/json" --data '{ "query" : "{ users { name } }" }' localhost:4000/graphql | jq '.'
@@ -191,7 +211,7 @@ $ curl -s -H "Content-Type: application/json" --data '{ "query" : "{ users { nam
 }
 ```
 
-Or using ```httpie``` (wich is my prefered on)
+Or using `httpie` (wich is my prefered on)
 
 ```shell
 $ http localhost:4000/graphql query='{ users { name } }'
@@ -215,8 +235,6 @@ X-Powered-By: Express
     }
 }
 ```
-
-
 
 ### Mutations
 
@@ -266,7 +284,7 @@ mutation {
 }
 ```
 
-## Querying all users
+### Querying all users
 
 ```graphql
 {
@@ -288,7 +306,7 @@ mutation {
 }
 ```
 
-## Same with MongoDB in the backend
+### Same with MongoDB in the backend
 
 ```graphql
 # Create some Documents
@@ -340,7 +358,11 @@ query {
 }
 ```
 
-## Build and run Docker container
+---
+
+# Using Docker
+
+Now let's build our GraphQL as a Docker container !
 
 A Dockerfile can build the containerized version of this app.
 
@@ -442,14 +464,14 @@ $ docker run -it -p 4000:4000 graphql-tutorial:latest
 
 ```
 
+---
 
-
-## Deploy to heroku
+# Using Heroku
 
 Assuming you have an account on heroku and you know its capabilites to push apps [https://devcenter.heroku.com/articles/getting-started-with-nodejs#deploy-the-app](https://devcenter.heroku.com/articles/getting-started-with-nodejs#deploy-the-app)...
 
 ```shell
-heroku create
+heroku create --region eu
 Creating app... !
  ▸    Invalid credentials provided.
 Enter your Heroku credentials:
@@ -472,7 +494,7 @@ origin	git@github.com:vincedgy/graphql-tutorial.git (push)
 You need to set all the vars needed (locally in a .env file for your dev)
 
 ```shell
-heroku config:set MONGODB_PASSWORD=vincent MONGODB_PASSWORD=12345 MONGODB_HOST=cluster-1-p0lig.mongodb.net MONGODB_NAME=test
+heroku config:set MONGODB_USER=vincent MONGODB_PASSWORD=12345 MONGODB_HOST=cluster-1-p0lig.mongodb.net MONGODB_NAME=test
 ```
 
 ### Deploy the app
@@ -586,3 +608,303 @@ To https://git.heroku.com/spooky-cat-34882.git
 ```shell
 $ heroku logs --tail
 ```
+
+# Using Apollo
+
+Now that everything is working, let's play with the number ONE framework for GraphQL : [Apollo](https://www.apolUsinglographql.com/)
+
+A complete framework and a platform, with a very accomplished user experience, schema definition using a DSL (gql), many implemntation in many languages, Chrome extensions etc.
+
+The main goal of Apollo is to give a `declarative data fetching` platform.
+
+And it uses [GraphQL Playground](GraphQL Playground), way more better than GraphiQL...
+
+It's a whole refactoring process, Of Course, but the multiple [benefits](https://www.apollographql.com/docs/intro/benefits/) of Apollo platform worst it.
+
+You'll use [Apollo Engine](https://engine.apollographql.com/login) and read a lot of [documentation](https://www.apollographql.com/docs/) but the Apollo experience on both sides is totally game changing.
+
+Create your Apollo Engine account (using Github Auth), it's free !
+
+## Dependencies
+
+Local and global dependencies are needed in order to user Apollo plateform.
+
+And first you will use Apollo platform and service to publish your schema, serving you with a lot of toolings using [Apollo Engine](https://engine.apollographql.com/login).
+
+```shell
+npm install --global apollo
+```
+
+Dependencies :
+
+- [apollo-server](https://www.npmjs.com/package/apollo-server) : the main server
+- [apollo-tools](https://www.npmjs.com/package/@apollographql/apollo-tools) : the tooling for assembling schema and resolvers
+
+Install depencies with
+
+```shell
+npm run clean
+npm ci
+```
+
+## Develop/Debug/Run the app
+
+You should be :
+
+- 'babel' build along with `npm run watch`
+
+```shell
+npm run watch
+
+> graphql-tutorial@2.0.0 watch /Users/vincent/Projects/GraphQL/graphql-tutorial
+> babel src --out-dir dist --source-maps --watch --verbose --color
+
+src/datasources/Hobby.js -> dist/datasources/Hobby.js
+src/datasources/Person.js -> dist/datasources/Person.js
+src/datasources/Post.js -> dist/datasources/Post.js
+src/datasources/User.js -> dist/datasources/User.js
+src/index.js -> dist/index.js
+src/mongo.js -> dist/mongo.js
+src/resolvers.js -> dist/resolvers.js
+src/schema.js -> dist/schema.js
+src/utils.js -> dist/utils.js
+Successfully compiled 9 files with Babel.
+src/resolvers.js -> dist/resolvers.js
+src/schema.js -> dist/schema.js
+src/resolvers.js -> dist/resolvers.js
+src/resolvers.js -> dist/resolvers.js
+src/resolvers.js -> dist/resolvers.js
+[...]
+```
+
+Then either :
+
+- debug with vscode directly
+- launch nodemon `npm run serve`
+
+```shell
+npm run serve
+
+> graphql-tutorial@2.0.0 serve /Users/vincent/Projects/GraphQL/graphql-tutorial
+> nodemon dist/index.js
+
+[nodemon] 1.19.4
+[nodemon] to restart at any time, enter `rs`
+[nodemon] watching dir(s): dist/**
+[nodemon] watching extensions: js,json
+[nodemon] starting `node -r dotenv/config dist/index.js`
+08:43:20 - log: 🚀 Server's ready at http://localhost:4000/graphql
+08:43:24 - info: Looking for the person of user 5dbc5abe5fc8874bf1644021
+08:43:24 - info: Looking for hobbies of user 5dbc5abe5fc8874bf1644021
+08:43:24 - info: Looking for posts of user 5dbc5abe5fc8874bf1644021
+08:43:28 - info: Looking for user 5dbc5abe5fc8874bf1644021 of person 5dbc5ac35fc8874bf1644022
+```
+
+## Push schema to Apollo Engine
+
+First you have to add your app in Apollo Engine website.
+
+Then launch the app.
+
+```shell
+$ npx apollo service:push --endpoint=http://localhost:4000
+  ✔ Loading Apollo Project
+  ✔ Uploading service to Engine
+
+
+╔════════╤═══════════════════════════╤═════════╗
+║ id     │ graph                     │ tag     ║
+╟────────┼───────────────────────────┼─────────╢
+║ 98b1bf │ vincedgy-graphql-tutorial │ current ║
+╚════════╧═══════════════════════════╧═════════╝
+```
+
+## Deploy the Apollo app to Heroko
+
+```shell
+ git push heroku Now_With_Apollo:master
+Enumerating objects: 357, done.
+Counting objects: 100% (357/357), done.
+Delta compression using up to 4 threads
+Compressing objects: 100% (288/288), done.
+Writing objects: 100% (357/357), 1.20 MiB | 1.02 MiB/s, done.
+Total 357 (delta 190), reused 99 (delta 58)
+remote: Compressing source files... done.
+remote: Building source:
+remote:
+remote: -----> Node.js app detected
+remote:
+remote: -----> Creating runtime environment
+remote:
+remote:        NPM_CONFIG_LOGLEVEL=error
+remote:        NODE_ENV=production
+remote:        NODE_MODULES_CACHE=true
+remote:        NODE_VERBOSE=false
+remote:
+remote: -----> Installing binaries
+remote:        engines.node (package.json):  12.13.0
+remote:        engines.npm (package.json):   6.12.1
+remote:
+remote:        Resolving node version 12.13.0...
+remote:        Downloading and installing node 12.13.0...
+remote:        Bootstrapping npm 6.12.1 (replacing 6.12.0)...
+remote:        npm 6.12.1 installed
+remote:
+remote: -----> Installing dependencies
+remote:        Installing node modules (package.json + package-lock)
+remote:
+remote:        > core-js@3.3.5 postinstall /tmp/build_a440da45e3c392f5162fb7e0e2b991f1/node_modules/core-js
+remote:        > node postinstall || echo "ignore"
+remote:
+remote:
+remote:        > protobufjs@6.8.8 postinstall /tmp/build_a440da45e3c392f5162fb7e0e2b991f1/node_modules/protobufjs
+remote:        > node scripts/postinstall
+remote:
+remote:
+remote:        > nodemon@1.19.4 postinstall /tmp/build_a440da45e3c392f5162fb7e0e2b991f1/node_modules/nodemon
+remote:        > node bin/postinstall || exit 0
+remote:
+remote:        Love nodemon? You can now support the project via the open collective:
+remote:         > https://opencollective.com/nodemon/donate
+remote:
+remote:        added 888 packages from 505 contributors and audited 14180 packages in 22.709s
+remote:        found 0 vulnerabilities
+remote:
+remote:
+remote: -----> Build
+remote:        Running build
+remote:
+remote:        > graphql-tutorial@4.0.0 build /tmp/build_a440da45e3c392f5162fb7e0e2b991f1
+remote:        > npm run compile && webpack --config ./webpack.config.js --mode production
+remote:
+remote:
+remote:        > graphql-tutorial@4.0.0 compile /tmp/build_a440da45e3c392f5162fb7e0e2b991f1
+remote:        > babel --out-dir dist --verbose  --no-comments --compact true --minified src
+remote:
+remote:        src/entities.js -> dist/entities.js
+remote:        src/index.js -> dist/index.js
+remote:        src/mongo.js -> dist/mongo.js
+remote:        src/resolvers.js -> dist/resolvers.js
+remote:        src/schema.js -> dist/schema.js
+remote:        src/utils.js -> dist/utils.js
+remote:        Successfully compiled 6 files with Babel.
+remote:        Hash: 82a8c14b35c44869b502
+remote:        Version: webpack 4.41.2
+remote:        Time: 1198ms
+remote:        Built at: 11/02/2019 9:46:26 AM
+remote:            Asset      Size  Chunks             Chunk Names
+remote:        bundle.js  10.8 KiB       0  [emitted]  main
+remote:        Entrypoint main = bundle.js
+remote:         [0] external "dotenv/config" 42 bytes {0} [built]
+remote:         [1] external "loggy" 42 bytes {0} [built]
+remote:         [2] external "mongoose" 42 bytes {0} [built]
+remote:         [3] external "apollo-server" 42 bytes {0} [built]
+remote:         [4] ./dist/index.js 1.55 KiB {0} [built]
+remote:         [5] ./dist/mongo.js 465 bytes {0} [built]
+remote:         [6] ./dist/utils.js 211 bytes {0} [built]
+remote:         [7] external "graphql-tools" 42 bytes {0} [built]
+remote:         [8] ./dist/schema.js 2.91 KiB {0} [built]
+remote:         [9] ./dist/resolvers.js 6.75 KiB {0} [built]
+remote:        [10] ./dist/entities.js 1.03 KiB {0} [built]
+remote:        [11] external "graphql-iso-date" 42 bytes {0} [built]
+remote:
+remote: -----> Pruning devDependencies
+remote:        removed 702 packages and audited 2370 packages in 8.264s
+remote:        found 0 vulnerabilities
+remote:
+remote:
+remote: -----> Caching build
+remote:        - node_modules
+remote:
+remote: -----> Build succeeded!
+remote: -----> Discovering process types
+remote:        Procfile declares types -> web
+remote:
+remote: -----> Compressing...
+remote:        Done: 27M
+remote: -----> Launching...
+remote:        Released v3
+remote:        https://serene-sands-28596.herokuapp.com/ deployed to Heroku
+remote:
+remote: Verifying deploy... done.
+To https://git.heroku.com/serene-sands-28596.git
+ * [new branch]      Now_With_Apollo -> master
+```
+
+Don't forget to set the config for this Heroku app :
+
+```shell
+$ heroku config:set MONGODB_USER=vincent MONGODB_PASSWORD=12345 MONGODB_HOST=cluster-1-p0lig.mongodb.net MONGODB_NAME=test
+Setting MONGODB_USER, MONGODB_PASSWORD, MONGODB_HOST, MONGODB_NAME and restarting ⬢ serene-sands-28596... done, v4
+MONGODB_HOST:     cluster-1-p0lig.mongodb.net
+MONGODB_NAME:     test
+MONGODB_PASSWORD: 12345
+MONGODB_USER:     vincent
+```
+
+Checkout the logs
+
+```shell
+$ heroku logs --tail
+```
+
+And it's working !
+
+```shell
+$ http OPTIONS https://serene-sands-28596.herokuapp.com/graphql
+HTTP/1.1 204 No Content
+Access-Control-Allow-Methods: GET,HEAD,PUT,PATCH,POST,DELETE
+Access-Control-Allow-Origin: *
+Connection: keep-alive
+Content-Length: 0
+Date: Sat, 02 Nov 2019 09:55:00 GMT
+Server: Cowboy
+Vary: Access-Control-Request-Headers
+Via: 1.1 vegur
+X-Powered-By: Express
+
+
+$ http https://serene-sands-28596.herokuapp.com/graphql query='{ users { name, email } }'
+HTTP/1.1 200 OK
+Access-Control-Allow-Origin: *
+Connection: keep-alive
+Content-Length: 76
+Content-Type: application/json; charset=utf-8
+Date: Sat, 02 Nov 2019 09:55:43 GMT
+Etag: W/"4c-m18RKh3ZlNcyfh29oUWhrQonn4k"
+Server: Cowboy
+Via: 1.1 vegur
+X-Powered-By: Express
+
+{
+    "data": {
+        "users": [
+            {
+                "email": "vincent.dagoury@gmail.com",
+                "name": "Vincent"
+            }
+        ]
+    }
+}
+```
+
+Even in the brower : [https://serene-sands-28596.herokuapp.com/graphql?query={users{name,email}}](https://serene-sands-28596.herokuapp.com/graphql?query={users{name,email}})
+
+`You may need to change the host :-)`
+
+# Beyond
+
+## Other interesting frameworks :
+
+### Prisma
+
+Check out [https://www.prisma.io/](https://www.prisma.io/) with a very close platform but with a lot additional features.
+
+- [https://youtu.be/nKmjKKyK5vc](https://youtu.be/nKmjKKyK5vc)
+- [https://www.npmtrends.com/apollo-server-vs-graphql-yoga-vs-prisma]'https://www.npmtrends.com/apollo-server-vs-graphql-yoga-vs-prisma)
+- [https://www.prisma.io/docs/understand-prisma/prisma-vs-traditional-orms/prisma-vs-typeorm-k9fh/](https://www.prisma.io/docs/understand-prisma/prisma-vs-traditional-orms/prisma-vs-typeorm-k9fh/)
+
+# TODO
+
+Checkout the GitHub [Project](https://github.com/vincedgy/graphql-tutorial/projects/1
+

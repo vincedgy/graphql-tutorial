@@ -1,78 +1,67 @@
 import 'dotenv/config'
-import mongoConfig from './mongo'
-import express from 'express'
-import cors from 'cors'
 import logger from 'loggy'
-import graphql from 'express-graphql'
+
+import CONFIG from './mongo'
 import mongoose from 'mongoose'
-import schema from './schemas/schema'
 
-const app = express()
-
+// Vars from env
+const { MONGODB_HOST, MONGODB_NAME } = process.env
 const PORT = process.env.PORT || 4000
+const MONGODB_URI = `mongodb+srv://${MONGODB_HOST}/${MONGODB_NAME}?retryWrites=true&w=majority`
 
-// Declare app
-app
-  .use(cors())
-  .use(
-    '/graphql',
-    graphql({
-      graphiql: true,
-      schema: schema
-    })
-  )
-  .use(function(err, req, res, next) {
-    logger.error(err.stack)
-    if (res.headersSent) {
-      return next(err)
-    }
-    res.status(500)
-    res.render('error', { error: err })
-  })
+// Utils and API
+import { getUser } from './utils'
 
-logger.info('Starting...')
+// Apollo Server definition
+import { ApolloServer, AuthenticationError } from 'apollo-server'
+import { makeExecutableSchema } from 'graphql-tools'
 
-// Open the connection to database
-mongoose
-  .connect(
-    'mongodb+srv://' +
-      process.env.MONGODB_HOST +
-      '/' +
-      process.env.MONGODB_NAME +
-      '?retryWrites=true&w=majority',
-    mongoConfig
-  )
-  .catch(err => {
-    logger.error('Error during mongoDB connection', err)
-  })
+import typeDefs from './schema'
+import resolvers from './resolvers'
 
-// Listen to connection 'open' event
-mongoose.connection.on('open', () => {
-  logger.log(
-    `Connected to Mongodb Atlas on ${process.env.MONGODB_NAME} on ${process.env.MONGODB_HOST}`
-  )
-  // Run app
-  app.listen(PORT, () => {
-    logger.info(`Listening on port ${PORT}`)
-    logger.info(`You should open an url on {host}:${PORT}/graphql`)
-  })
+export const schema = makeExecutableSchema({
+  typeDefs,
+  resolvers,
+  logger
 })
 
-// Gracefull shutdown
-const gracefulShutdown = () => {
-  mongoose.connection
-    .close()
-    .then(() => {
-      logger.log('Closing connection to database gently.')
-      process.exit(0)
-    })
-    .catch(err => {
-      logger.log(err)
-      process.exit(1)
-    })
-}
-process.once('SIGINT', gracefulShutdown)
-process.once('SIGHUP', gracefulShutdown)
-process.once('SIGUSR2', gracefulShutdown)
+const server = new ApolloServer({
+  cors: true,
+  schema,
+  context: ({ req }) => {
+    // get the user token from the headers
+    const token = req.headers.authorization || ''
 
-export default app
+    // try to retrieve a user with the token
+    const user = getUser(token)
+
+    // optionally block the user
+    // we could also check user roles/permissions here
+    if (!user) throw new AuthenticationError('you must be logged in')
+
+    // add the user to the context
+    return { user }
+  }
+})
+
+// Open the connection to database
+// Then start the app
+mongoose
+  .connect(MONGODB_URI, CONFIG)
+  .then(() => {
+    server
+      .listen(PORT)
+      .then(({ url }) => {
+        logger.info(`🚀 Server's ready at ${url}graphql`)
+      })
+      .catch(err => {
+        logger.error('FATAL : Error while server startup', err)
+        process.exit(1)
+      })
+  })
+  .catch(err => {
+    logger.error('FATAL : Error while mongoDB connection', err)
+    process.exit(1)
+  })
+
+export default server
