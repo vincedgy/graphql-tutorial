@@ -1,0 +1,33 @@
+{
+  "addons": [
+
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    }
+  ],
+  "env": {
+    "MONGODB_HOST": {
+      "required": true
+    },
+    "MONGODB_NAME": {
+      "required": true
+    },
+    "MONGODB_PASSWORD": {
+      "required": true
+    },
+    "MONGODB_USER": {
+      "required": true
+    }
+  },
+  "formation": {
+    "web": {
+      "quantity": 1
+    }
+  },
+  "name": "graphql-tutorial",
+  "scripts": {
+  },
+  "stack": "heroku-18"
+}
