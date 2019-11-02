@@ -2,5 +2,6 @@
   "presets": [["@babel/preset-env", { "targets": { "node": "current" } }]],
   "plugins": ["@babel/plugin-transform-async-to-generator"],
   "compact": true,
-  "minified": true
+  "minified": true,
+  "highlightCode": true
 }

@@ -23,6 +23,7 @@
 11. [Using Docker](#Using-Docker)
 12. [Using Heroku](#Using-Heroku)
 13. [Using Apollo](#Using-Apollo)
+14. [Beyond](#Beyond)
 
 ## Project objectives
 
@@ -41,7 +42,7 @@
 - Visual Studio Code and usefull extensions
 - MongoDB Atlas account, a cluster and a user to connect with
 - eslint globally installed
-- webpack-cli globally installed
+- webpack-cli globally installed (optional)
 - heroku-cli (if you have an account)
 
 ## Dependencies
@@ -890,3 +891,20 @@ X-Powered-By: Express
 Even in the brower : [https://serene-sands-28596.herokuapp.com/graphql?query={users{name,email}}](https://serene-sands-28596.herokuapp.com/graphql?query={users{name,email}})
 
 `You may need to change the host :-)`
+
+# Beyond
+
+## Other interesting frameworks :
+
+### Prisma
+
+Check out [https://www.prisma.io/](https://www.prisma.io/) with a very close platform but with a lot additional features.
+
+- [https://youtu.be/nKmjKKyK5vc](https://youtu.be/nKmjKKyK5vc)
+- [https://www.npmtrends.com/apollo-server-vs-graphql-yoga-vs-prisma]'https://www.npmtrends.com/apollo-server-vs-graphql-yoga-vs-prisma)
+- [https://www.prisma.io/docs/understand-prisma/prisma-vs-traditional-orms/prisma-vs-typeorm-k9fh/](https://www.prisma.io/docs/understand-prisma/prisma-vs-traditional-orms/prisma-vs-typeorm-k9fh/)
+
+# TODO
+
+Checkout the GitHub [Project](https://github.com/vincedgy/graphql-tutorial/projects/1
+

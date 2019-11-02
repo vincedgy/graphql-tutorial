@@ -1,9 +1,7 @@
 const nodeExternals = require('webpack-node-externals')
-///const PrettierPlugin = require('prettier-webpack-plugin')
 
 module.exports = {
   entry: './dist/index.js',
-  ///plugins: [new PrettierPlugin()],
   module: {
     rules: [
       {
@@ -11,14 +9,12 @@ module.exports = {
         exclude: /node_modules/,
         use: [
           'babel-loader'
-          //  , 'eslint-loader'
-        ],
-        type: 'javascript/auto'
+        ]
       }
     ]
   },
   resolve: {
-    extensions: ['*', '.js', '.mjs', '.json', '.gql', '.graphql']
+    extensions: ['*', '.js', '.json']
   },
   target: 'node', // in order to ignore built-in modules like path, fs, etc.
   externals: [nodeExternals()], // in order to ignore all modules in node_modules folder

@@ -12,8 +12,8 @@
     "watch": "babel --out-dir dist --source-maps --watch --verbose --env-name dev src",
     "serve": "nodemon dist/index.js",
     "compile": "babel --out-dir dist --verbose  --no-comments --compact true --minified src",
-    "build": "npm run compile && webpack --config ./webpack.config.js --mode production",
-    "start": "LOGGY_STACKS=1 node dist-prod/bundle.js"
+    "build": "npm run compile && webpack --config webpack.config.js --mode production",
+    "start": "npm run build && LOGGY_STACKS=1 node dist-prod/bundle.js"
   },
   "keywords": [
     "nodejs",
@@ -25,16 +25,11 @@
   "author": "Vincent DAGOURY",
   "license": "ISC",
   "dependencies": {
-    "apollo-datasource": "^0.6.3",
     "apollo-server": "^2.9.7",
-    "cors": "^2.8.5",
     "dotenv": "^8.2.0",
-    "express": "^4.17.1",
-    "express-graphql": "^0.9.0",
     "graphql": "^14.5.8",
     "graphql-iso-date": "^3.6.1",
     "graphql-tools": "^4.0.6",
-    "lodash": "^4.17.15",
     "loggy": "^1.0.8",
     "mongoose": "^5.7.7"
   },
@@ -43,22 +38,16 @@
     "@babel/core": "^7.6.4",
     "@babel/node": "^7.6.3",
     "@babel/plugin-transform-async-to-generator": "^7.5.0",
-    "@babel/plugin-transform-runtime": "^7.6.2",
     "@babel/preset-env": "^7.6.3",
     "babel-eslint": "^10.0.3",
     "babel-loader": "^8.0.6",
-    "clean-webpack-plugin": "^3.0.0",
     "eslint": "^6.6.0",
-    "eslint-loader": "^3.0.2",
     "eslint-plugin-graphql": "^3.1.0",
-    "kill-port": "^1.6.0",
     "nodemon": "^1.19.4",
     "prettier": "^1.18.2",
-    "prettier-webpack-plugin": "^1.2.0",
     "rimraf": "^3.0.0",
     "source-map": "^0.7.3",
     "webpack": "^4.41.2",
-    "webpack-cli": "^3.3.10",
     "webpack-node-externals": "^1.7.2"
   }
 }
