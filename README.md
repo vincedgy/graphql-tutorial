@@ -472,7 +472,7 @@ $ docker run -it -p 4000:4000 graphql-tutorial:latest
 Assuming you have an account on heroku and you know its capabilites to push apps [https://devcenter.heroku.com/articles/getting-started-with-nodejs#deploy-the-app](https://devcenter.heroku.com/articles/getting-started-with-nodejs#deploy-the-app)...
 
 ```shell
-heroku create
+heroku create --region eu
 Creating app... !
  ▸    Invalid credentials provided.
 Enter your Heroku credentials:

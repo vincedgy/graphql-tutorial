@@ -190,7 +190,7 @@ export default {
     },
     person: async ({ id }) => {
       logger.info(`Looking for the person of user ${id}`)
-      return Person.findOne({userId: id})
+      return Person.findOne({ userId: id })
     }
   },
 
