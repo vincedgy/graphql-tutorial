@@ -1,13 +1,12 @@
 ![](https://github.com/vincedgy/graphql-tutorial/workflows/Node%20CI/badge.svg)
 
-GraphQL with nodeJS and express
--------------------------------
+## GraphQL with nodeJS and express
 
 >
-  - Author : Vincent DAGOURY
-  - Date : 2019/10
-  - License : ISC [https://www.gnu.org/licenses/license-list.html#ISC](https://www.gnu.org/licenses/license-list.html#ISC)
 
+- Author : Vincent DAGOURY
+- Date : 2019/10
+- License : ISC [https://www.gnu.org/licenses/license-list.html#ISC](https://www.gnu.org/licenses/license-list.html#ISC)
 
 ## Table of Contents
 
@@ -64,7 +63,7 @@ GraphQL with nodeJS and express
 
 ## Installation
 
-package.json contains depencies for this app and ```npm install``` will install them.
+package.json contains depencies for this app and `npm install` will install them.
 
 ```shell
 npm ci
@@ -72,7 +71,7 @@ npm ci
 
 ## Setting configs
 
-The app use ```dotenv```. You'll need to create a .env file with the following vars and with the proper values !
+The app use `dotenv`. You'll need to create a .env file with the following vars and with the proper values !
 
 ```shell
 MONGODB_PASSWORD=whatever
@@ -189,14 +188,14 @@ query {
 }
 ```
 
-You can use ```curl```
+You can use `curl`
 
 ```shell
 $ curl -s -H "Content-Type: application/json" --data '{ "query" : "{ users { name } }" }' localhost:4000/graphql
 {"data":{"users":[{"name":"Vincent DAGOURY"}]}}%
 ```
 
-combine with ```jq``` for nice presentation
+combine with `jq` for nice presentation
 
 ```shell
 $ curl -s -H "Content-Type: application/json" --data '{ "query" : "{ users { name } }" }' localhost:4000/graphql | jq '.'
@@ -211,7 +210,7 @@ $ curl -s -H "Content-Type: application/json" --data '{ "query" : "{ users { nam
 }
 ```
 
-Or using ```httpie``` (wich is my prefered on)
+Or using `httpie` (wich is my prefered on)
 
 ```shell
 $ http localhost:4000/graphql query='{ users { name } }'
@@ -358,7 +357,7 @@ query {
 }
 ```
 
-----
+---
 
 # Using Docker
 
@@ -464,8 +463,7 @@ $ docker run -it -p 4000:4000 graphql-tutorial:latest
 
 ```
 
-----
-
+---
 
 # Using Heroku
 
@@ -495,7 +493,7 @@ origin	git@github.com:vincedgy/graphql-tutorial.git (push)
 You need to set all the vars needed (locally in a .env file for your dev)
 
 ```shell
-heroku config:set MONGODB_PASSWORD=vincent MONGODB_PASSWORD=12345 MONGODB_HOST=cluster-1-p0lig.mongodb.net MONGODB_NAME=test
+heroku config:set MONGODB_USER=vincent MONGODB_PASSWORD=12345 MONGODB_HOST=cluster-1-p0lig.mongodb.net MONGODB_NAME=test
 ```
 
 ### Deploy the app
@@ -632,7 +630,6 @@ Local and global dependencies are needed in order to user Apollo plateform.
 
 And first you will use Apollo platform and service to publish your schema, serving you with a lot of toolings using [Apollo Engine](https://engine.apollographql.com/login).
 
-
 ```shell
 npm install --global apollo
 ```
@@ -653,7 +650,7 @@ npm ci
 
 You should be :
 
-- 'babel' build along with ```npm run watch```
+- 'babel' build along with `npm run watch`
 
 ```shell
 npm run watch
@@ -682,7 +679,7 @@ src/resolvers.js -> dist/resolvers.js
 Then either :
 
 - debug with vscode directly
-- launch nodemon ```npm run serve```
+- launch nodemon `npm run serve`
 
 ```shell
 npm run serve
@@ -721,3 +718,175 @@ $ npx apollo service:push --endpoint=http://localhost:4000
 ╚════════╧═══════════════════════════╧═════════╝
 ```
 
+## Deploy the Apollo app to Heroko
+
+```shell
+ git push heroku Now_With_Apollo:master
+Enumerating objects: 357, done.
+Counting objects: 100% (357/357), done.
+Delta compression using up to 4 threads
+Compressing objects: 100% (288/288), done.
+Writing objects: 100% (357/357), 1.20 MiB | 1.02 MiB/s, done.
+Total 357 (delta 190), reused 99 (delta 58)
+remote: Compressing source files... done.
+remote: Building source:
+remote:
+remote: -----> Node.js app detected
+remote:
+remote: -----> Creating runtime environment
+remote:
+remote:        NPM_CONFIG_LOGLEVEL=error
+remote:        NODE_ENV=production
+remote:        NODE_MODULES_CACHE=true
+remote:        NODE_VERBOSE=false
+remote:
+remote: -----> Installing binaries
+remote:        engines.node (package.json):  12.13.0
+remote:        engines.npm (package.json):   6.12.1
+remote:
+remote:        Resolving node version 12.13.0...
+remote:        Downloading and installing node 12.13.0...
+remote:        Bootstrapping npm 6.12.1 (replacing 6.12.0)...
+remote:        npm 6.12.1 installed
+remote:
+remote: -----> Installing dependencies
+remote:        Installing node modules (package.json + package-lock)
+remote:
+remote:        > core-js@3.3.5 postinstall /tmp/build_a440da45e3c392f5162fb7e0e2b991f1/node_modules/core-js
+remote:        > node postinstall || echo "ignore"
+remote:
+remote:
+remote:        > protobufjs@6.8.8 postinstall /tmp/build_a440da45e3c392f5162fb7e0e2b991f1/node_modules/protobufjs
+remote:        > node scripts/postinstall
+remote:
+remote:
+remote:        > nodemon@1.19.4 postinstall /tmp/build_a440da45e3c392f5162fb7e0e2b991f1/node_modules/nodemon
+remote:        > node bin/postinstall || exit 0
+remote:
+remote:        Love nodemon? You can now support the project via the open collective:
+remote:         > https://opencollective.com/nodemon/donate
+remote:
+remote:        added 888 packages from 505 contributors and audited 14180 packages in 22.709s
+remote:        found 0 vulnerabilities
+remote:
+remote:
+remote: -----> Build
+remote:        Running build
+remote:
+remote:        > graphql-tutorial@4.0.0 build /tmp/build_a440da45e3c392f5162fb7e0e2b991f1
+remote:        > npm run compile && webpack --config ./webpack.config.js --mode production
+remote:
+remote:
+remote:        > graphql-tutorial@4.0.0 compile /tmp/build_a440da45e3c392f5162fb7e0e2b991f1
+remote:        > babel --out-dir dist --verbose  --no-comments --compact true --minified src
+remote:
+remote:        src/entities.js -> dist/entities.js
+remote:        src/index.js -> dist/index.js
+remote:        src/mongo.js -> dist/mongo.js
+remote:        src/resolvers.js -> dist/resolvers.js
+remote:        src/schema.js -> dist/schema.js
+remote:        src/utils.js -> dist/utils.js
+remote:        Successfully compiled 6 files with Babel.
+remote:        Hash: 82a8c14b35c44869b502
+remote:        Version: webpack 4.41.2
+remote:        Time: 1198ms
+remote:        Built at: 11/02/2019 9:46:26 AM
+remote:            Asset      Size  Chunks             Chunk Names
+remote:        bundle.js  10.8 KiB       0  [emitted]  main
+remote:        Entrypoint main = bundle.js
+remote:         [0] external "dotenv/config" 42 bytes {0} [built]
+remote:         [1] external "loggy" 42 bytes {0} [built]
+remote:         [2] external "mongoose" 42 bytes {0} [built]
+remote:         [3] external "apollo-server" 42 bytes {0} [built]
+remote:         [4] ./dist/index.js 1.55 KiB {0} [built]
+remote:         [5] ./dist/mongo.js 465 bytes {0} [built]
+remote:         [6] ./dist/utils.js 211 bytes {0} [built]
+remote:         [7] external "graphql-tools" 42 bytes {0} [built]
+remote:         [8] ./dist/schema.js 2.91 KiB {0} [built]
+remote:         [9] ./dist/resolvers.js 6.75 KiB {0} [built]
+remote:        [10] ./dist/entities.js 1.03 KiB {0} [built]
+remote:        [11] external "graphql-iso-date" 42 bytes {0} [built]
+remote:
+remote: -----> Pruning devDependencies
+remote:        removed 702 packages and audited 2370 packages in 8.264s
+remote:        found 0 vulnerabilities
+remote:
+remote:
+remote: -----> Caching build
+remote:        - node_modules
+remote:
+remote: -----> Build succeeded!
+remote: -----> Discovering process types
+remote:        Procfile declares types -> web
+remote:
+remote: -----> Compressing...
+remote:        Done: 27M
+remote: -----> Launching...
+remote:        Released v3
+remote:        https://serene-sands-28596.herokuapp.com/ deployed to Heroku
+remote:
+remote: Verifying deploy... done.
+To https://git.heroku.com/serene-sands-28596.git
+ * [new branch]      Now_With_Apollo -> master
+```
+
+Don't forget to set the config for this Heroku app :
+
+```shell
+$ heroku config:set MONGODB_USER=vincent MONGODB_PASSWORD=12345 MONGODB_HOST=cluster-1-p0lig.mongodb.net MONGODB_NAME=test
+Setting MONGODB_USER, MONGODB_PASSWORD, MONGODB_HOST, MONGODB_NAME and restarting ⬢ serene-sands-28596... done, v4
+MONGODB_HOST:     cluster-1-p0lig.mongodb.net
+MONGODB_NAME:     test
+MONGODB_PASSWORD: 12345
+MONGODB_USER:     vincent
+```
+
+Checkout the logs
+
+```shell
+$ heroku logs --tail
+```
+
+And it's working !
+
+```shell
+$ http OPTIONS https://serene-sands-28596.herokuapp.com/graphql
+HTTP/1.1 204 No Content
+Access-Control-Allow-Methods: GET,HEAD,PUT,PATCH,POST,DELETE
+Access-Control-Allow-Origin: *
+Connection: keep-alive
+Content-Length: 0
+Date: Sat, 02 Nov 2019 09:55:00 GMT
+Server: Cowboy
+Vary: Access-Control-Request-Headers
+Via: 1.1 vegur
+X-Powered-By: Express
+
+
+$ http https://serene-sands-28596.herokuapp.com/graphql query='{ users { name, email } }'
+HTTP/1.1 200 OK
+Access-Control-Allow-Origin: *
+Connection: keep-alive
+Content-Length: 76
+Content-Type: application/json; charset=utf-8
+Date: Sat, 02 Nov 2019 09:55:43 GMT
+Etag: W/"4c-m18RKh3ZlNcyfh29oUWhrQonn4k"
+Server: Cowboy
+Via: 1.1 vegur
+X-Powered-By: Express
+
+{
+    "data": {
+        "users": [
+            {
+                "email": "vincent.dagoury@gmail.com",
+                "name": "Vincent"
+            }
+        ]
+    }
+}
+```
+
+Even in the brower : [https://serene-sands-28596.herokuapp.com/graphql?query={users{name,email}}](https://serene-sands-28596.herokuapp.com/graphql?query={users{name,email}})
+
+`You may need to change the host :-)`
