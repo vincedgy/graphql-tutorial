@@ -22,7 +22,7 @@ GraphQL with nodeJS and express
 9. [Build the app](#Build-the-app)
 10. [GraphQL Queries](#GraphQL-Queries)
 11. [Using Docker](#Using-Docker)
-12. [Using heroku](#Using-Heroku)
+12. [Using Heroku](#Using-Heroku)
 13. [Using Apollo](#Using-Apollo)
 
 ## Project objectives
@@ -467,7 +467,7 @@ $ docker run -it -p 4000:4000 graphql-tutorial:latest
 ----
 
 
-# Using heroku
+# Using Heroku
 
 Assuming you have an account on heroku and you know its capabilites to push apps [https://devcenter.heroku.com/articles/getting-started-with-nodejs#deploy-the-app](https://devcenter.heroku.com/articles/getting-started-with-nodejs#deploy-the-app)...
 
@@ -637,11 +637,87 @@ And first you will use Apollo platform and service to publish your schema, servi
 npm install --global apollo
 ```
 
-Now the local dependencies :
+Dependencies :
 
-- [apollo-server](https://www.npmjs.com/package/apollo-server)
-- [apollo-tools](https://www.npmjs.com/package/@apollographql/apollo-tools)
+- [apollo-server](https://www.npmjs.com/package/apollo-server) : the main server
+- [apollo-tools](https://www.npmjs.com/package/@apollographql/apollo-tools) : the tooling for assembling schema and resolvers
+
+Install depencies with
 
 ```shell
-npm install --save apollo-server apollo-tools
+npm run clean
+npm ci
 ```
+
+## Develop/Debug/Run the app
+
+You should be :
+
+- 'babel' build along with ```npm run watch```
+
+```shell
+npm run watch
+
+> graphql-tutorial@2.0.0 watch /Users/vincent/Projects/GraphQL/graphql-tutorial
+> babel src --out-dir dist --source-maps --watch --verbose --color
+
+src/datasources/Hobby.js -> dist/datasources/Hobby.js
+src/datasources/Person.js -> dist/datasources/Person.js
+src/datasources/Post.js -> dist/datasources/Post.js
+src/datasources/User.js -> dist/datasources/User.js
+src/index.js -> dist/index.js
+src/mongo.js -> dist/mongo.js
+src/resolvers.js -> dist/resolvers.js
+src/schema.js -> dist/schema.js
+src/utils.js -> dist/utils.js
+Successfully compiled 9 files with Babel.
+src/resolvers.js -> dist/resolvers.js
+src/schema.js -> dist/schema.js
+src/resolvers.js -> dist/resolvers.js
+src/resolvers.js -> dist/resolvers.js
+src/resolvers.js -> dist/resolvers.js
+[...]
+```
+
+Then either :
+
+- debug with vscode directly
+- launch nodemon ```npm run serve```
+
+```shell
+npm run serve
+
+> graphql-tutorial@2.0.0 serve /Users/vincent/Projects/GraphQL/graphql-tutorial
+> nodemon dist/index.js
+
+[nodemon] 1.19.4
+[nodemon] to restart at any time, enter `rs`
+[nodemon] watching dir(s): dist/**
+[nodemon] watching extensions: js,json
+[nodemon] starting `node -r dotenv/config dist/index.js`
+08:43:20 - log: 🚀 Server's ready at http://localhost:4000/graphql
+08:43:24 - info: Looking for the person of user 5dbc5abe5fc8874bf1644021
+08:43:24 - info: Looking for hobbies of user 5dbc5abe5fc8874bf1644021
+08:43:24 - info: Looking for posts of user 5dbc5abe5fc8874bf1644021
+08:43:28 - info: Looking for user 5dbc5abe5fc8874bf1644021 of person 5dbc5ac35fc8874bf1644022
+```
+
+## Push schema to Apollo Engine
+
+First you have to add your app in Apollo Engine website.
+
+Then launch the app.
+
+```shell
+$ npx apollo service:push --endpoint=http://localhost:4000
+  ✔ Loading Apollo Project
+  ✔ Uploading service to Engine
+
+
+╔════════╤═══════════════════════════╤═════════╗
+║ id     │ graph                     │ tag     ║
+╟────────┼───────────────────────────┼─────────╢
+║ 98b1bf │ vincedgy-graphql-tutorial │ current ║
+╚════════╧═══════════════════════════╧═════════╝
+```
+

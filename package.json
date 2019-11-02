@@ -3,6 +3,9 @@
   "version": "2.0.0",
   "description": "A project to explore GraphQL written in ES6 with babel and webpack",
   "main": "src/index.js",
+  "engines": {
+    "node": "12.13.0"
+  },
   "scripts": {
     "clean": "rimraf dist dist-prod",
     "watch": "babel src --out-dir dist --source-maps --watch --verbose --color",
